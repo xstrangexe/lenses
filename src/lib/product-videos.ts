@@ -16,6 +16,8 @@ const VIDEOS: Record<string, string[]> = {
  */
 const SHOWCASE: Record<string, string[]> = {
   "chanel-case": [1, 2, 3].map((n) => `/videos/show-${n}.mp4`),
+  // the 20 s promo ad; unlike the phone clips it has a sound track, which the player's controls can unmute
+  "magsafe-burgundy": ["/videos/show-burgundy.mp4"],
 };
 
 export function showcaseVideos(slug: string): string[] {
