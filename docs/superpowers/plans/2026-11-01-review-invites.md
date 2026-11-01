@@ -97,7 +97,7 @@
 
 **Files:** Modify `src/routes/order.$token.tsx`, `src/lib/locales/{ar,fr,en}.order.ts`.
 
-**Interfaces:** Consumes `isTerminal` is not needed; adds string `order.reviewLink` ("قيّم طلبك"); shows a `Link to="/review/$token"` only when `data.status === "delivered"`.
+**Interfaces:** Adds the string `order.reviewLink` ("قيّم طلبك") and a `Link to="/review/$token"` shown only when `data.status === "delivered"`. Consumes the `/review/$token` route from Task 3.
 
 - [ ] **Step 1:** Add the link under the timeline for a delivered order only, styled like the existing `placed.track` link.
 - [ ] **Step 2:** Run `npm run check`; expect exit 0. Commit: `feat: link delivered orders to their review page`.
