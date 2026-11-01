@@ -88,6 +88,12 @@ select 'submit: photo that was never uploaded', 'bad_photo',
        public.submit_order_review(delivered, product_ok, 5, 'تعليق جيد',
          'https://abc.supabase.co/storage/v1/object/public/review-photos/' || delivered::text || '/missing.jpg') ->> 'code' from _t;
 
+-- Checked before the test review below, which may review the order's only
+-- product and so (correctly) close its upload folder.
+insert into _r (check_name, expected, actual)
+select 'upload allowed for the delivered order folder', 'true',
+       public.is_review_upload_allowed(delivered::text)::text from _t;
+
 -- 4. the happy path, then a double tap
 insert into _r (check_name, expected, actual)
 select 'submit: a good review is saved', 'true',
@@ -114,10 +120,6 @@ insert into _r (check_name, expected, actual) values
      coalesce((select file_size_limit::text from storage.buckets where id = 'review-photos'), 'no bucket')),
   ('upload allowed for a random folder', 'false',
      public.is_review_upload_allowed('00000000-0000-4000-8000-000000000000')::text);
--- (true only while that order still has a product nobody reviewed yet)
-insert into _r (check_name, expected, actual)
-select 'upload allowed for the delivered order folder', 'true',
-       public.is_review_upload_allowed(delivered::text)::text from _t;
 
 -- Clean up the test review, then show the result (all rows must be pass = true).
 delete from public.reviews where comment like '[اختبار-تحقق]%';

@@ -35,6 +35,8 @@ create policy "Admins manage review orders"
   using      ((select public.has_admin_role((select auth.uid()), array['owner','staff']::public.admin_role[])) is true)
   with check ((select public.has_admin_role((select auth.uid()), array['owner','staff']::public.admin_role[])) is true);
 
+-- Supabase grants anon every new public table by default; take that back.
+revoke all on public.review_orders from anon;
 grant select, insert, update, delete on public.review_orders to authenticated;
 
 -- --- First name only ---------------------------------------------------------
