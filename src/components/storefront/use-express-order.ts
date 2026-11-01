@@ -42,12 +42,15 @@ export function useExpressOrder({
   product,
   name,
   selected,
+  modelMissing,
   onMissingVariant,
 }: {
   product: CatalogueProduct;
   name: string;
   selected: CatalogueVariant | null;
-  /** Takes the buyer to the pickers and says what is missing: the model or the colour. */
+  /** The product has phone models and none is chosen: asked in the form, as its first field. */
+  modelMissing: boolean;
+  /** Takes the buyer to the colour picker and says what is missing. */
   onMissingVariant: () => TranslationKey;
 }) {
   const { t } = useI18n();
@@ -90,6 +93,7 @@ export function useExpressOrder({
     setMissing(null);
     const element = event.currentTarget;
     const found = orderFieldErrors({
+      modelMissing,
       name: customerName,
       phone,
       wilaya,
@@ -98,14 +102,15 @@ export function useExpressOrder({
       officeNeeded: method === "stopdesk" && officeFee !== null && zrOfficesIn(wilaya).length > 0,
     });
     form.setErrors(found);
-    // The model is picked above the form, so a missing one takes the buyer back
-    // up there; the field messages are waiting when they come back down.
-    if (!selected) {
-      setMissing(onMissingVariant());
-      return;
-    }
+    // A missing model is a field of this form like any other. A missing colour
+    // is picked up above the form, so that one takes the buyer back there; the
+    // field messages are waiting when they come back down.
     if (ORDER_FIELDS.some((field) => found[field])) {
       requestAnimationFrame(() => focusFirstError(element));
+      return;
+    }
+    if (!selected) {
+      setMissing(onMissingVariant());
       return;
     }
 

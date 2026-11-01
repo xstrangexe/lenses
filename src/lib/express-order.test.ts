@@ -70,6 +70,7 @@ describe("orderErrorKey", () => {
 
 describe("orderFieldErrors", () => {
   const filled = {
+    modelMissing: false,
     name: "Amine",
     phone: "0555123456",
     wilaya: "Alger",
@@ -88,6 +89,12 @@ describe("orderFieldErrors", () => {
       name: "express.nameMissing",
       phone: "express.phoneMissing",
       wilaya: "express.wilayaMissing",
+    });
+  });
+
+  it("asks for the phone model first when the product has models and none is chosen", () => {
+    expect(orderFieldErrors({ ...filled, modelMissing: true })).toEqual({
+      model: "express.pickVariant",
     });
   });
 

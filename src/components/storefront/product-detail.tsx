@@ -69,8 +69,6 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
   const scrollToForm = () =>
     document.getElementById(ORDER_FORM_ID)?.scrollIntoView({ behavior: "smooth", block: "start" });
   const { pickersRef, showPickers, showMissing, missingKey } = useMissingVariant({
-    hasModels: sizes.length > 0,
-    modelChosen: choice.size !== null,
     chosen: selected !== null,
   });
   const fromPrice = Math.min(...variants.map((v) => v.price));
@@ -107,12 +105,7 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
 
         <div ref={pickersRef} className="flex flex-col gap-5">
           {generations ? (
-            <ModelPicker
-              generations={generations}
-              selected={choice.size}
-              invalid={showMissing && choice.size === null}
-              onSelect={pickSize}
-            />
+            <ModelPicker generations={generations} selected={choice.size} onSelect={pickSize} />
           ) : (
             <SizePicker sizes={sizes} selected={choice.size} onSelect={pickSize} />
           )}
@@ -151,6 +144,11 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
               name={name}
               selected={selected && selected.stock > 0 ? selected : null}
               variantLabel={label === "—" ? null : label}
+              model={
+                sizes.length > 0
+                  ? { sizes, generations, selected: choice.size, onSelect: pickSize }
+                  : null
+              }
               onMissingVariant={showPickers}
             />
             <OrderActions name={name} selected={selected} />

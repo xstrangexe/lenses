@@ -15,13 +15,10 @@ import type { SizeOption } from "@/lib/variant-options";
 export function ModelPicker({
   generations,
   selected,
-  invalid = false,
   onSelect,
 }: {
   generations: ModelGeneration<SizeOption>[];
   selected: string | null;
-  /** The buyer tried to order without a model: outlined red, with the message beside it. */
-  invalid?: boolean;
   onSelect: (name: string) => void;
 }) {
   const { t } = useI18n();
@@ -29,7 +26,6 @@ export function ModelPicker({
   return (
     <Select
       aria-label={t("store.stepModel")}
-      aria-invalid={invalid || undefined}
       className="max-w-sm"
       value={selected ?? ""}
       onChange={(event) => event.target.value && onSelect(event.target.value)}

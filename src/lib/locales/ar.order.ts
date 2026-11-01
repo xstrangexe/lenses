@@ -7,6 +7,7 @@ export const arOrder = {
   "express.title": "اطلب الآن — الدفع عند الاستلام",
   "express.subtitle": "عمّر معلوماتك وأكّد الطلب، نعيطولك باش نأكدو معاك.",
   "express.fullName": "الاسم الكامل",
+  "express.model": "موديل هاتفك",
   "express.namePlaceholder": "مثال: أمين بن علي",
   "express.phone": "رقم الهاتف",
   "express.phoneInvalid": "رقم الهاتف ماشي صحيح. اكتبه هكذا: 0555123456",

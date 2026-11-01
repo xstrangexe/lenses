@@ -1,20 +1,16 @@
-import { useState } from "react";
-import { Banknote, CheckCircle2, PhoneCall, Plus, Truck } from "lucide-react";
-import { Field, Input } from "@/components/ui/form";
 import { useI18n } from "@/lib/i18n-context";
 import type { TranslationKey } from "@/lib/i18n";
 import {
-  deliveryWilayaCount,
   primaryImage,
   productImage,
-  useStoreSettings,
   type CatalogueProduct,
   type CatalogueVariant,
 } from "@/lib/queries";
-import { isValidDzPhone } from "@/lib/express-order";
 import { DeliveryChoice } from "./delivery-choice";
 import { ExpressOrderSummary } from "./express-order-summary";
 import { WilayaCommuneFields } from "./express-order-fields";
+import { ModelField, type ModelChoice } from "./model-field";
+import { AddressField, NameField, PhoneField, TrustRow } from "./express-order-inputs";
 import { useExpressOrder } from "./use-express-order";
 
 /** The section the "order now" buttons scroll to. */
@@ -39,17 +35,21 @@ export function ExpressOrderForm({
   name,
   selected,
   variantLabel,
+  model,
   onMissingVariant,
 }: {
   product: CatalogueProduct;
   name: string;
   selected: CatalogueVariant | null;
   variantLabel: string | null;
-  /** Called when the buyer submits before picking a model or colour; returns what to tell them. */
+  /** The phone model, when the product has models: asked as the form's first field. */
+  model: ModelChoice | null;
+  /** Called when the buyer submits before picking a colour; returns what to tell them. */
   onMissingVariant: () => TranslationKey;
 }) {
   const { t } = useI18n();
-  const order = useExpressOrder({ product, name, selected, onMissingVariant });
+  const modelMissing = model !== null && model.selected === null;
+  const order = useExpressOrder({ product, name, selected, modelMissing, onMissingVariant });
   const { fields, set, errors } = order;
   const message = (key: (typeof errors)[keyof typeof errors]) => (key ? t(key) : null);
   const image = primaryImage(selected ?? undefined) ?? productImage(product);
@@ -77,20 +77,27 @@ export function ExpressOrderForm({
         onChange={order.markStarted}
         className="xo-form"
       >
-        <Field label={t("express.fullName")} error={message(errors.name)} required>
-          <Input
-            value={fields.customerName}
-            onChange={(e) => {
-              set.setCustomerName(e.target.value);
-              order.clearError("name");
+        {model && (
+          <ModelField
+            choice={{
+              ...model,
+              onSelect: (picked) => {
+                model.onSelect(picked);
+                order.clearError("model");
+              },
             }}
-            autoComplete="name"
-            placeholder={t("express.namePlaceholder")}
-            required
-            minLength={2}
-            maxLength={120}
+            error={message(errors.model)}
           />
-        </Field>
+        )}
+
+        <NameField
+          value={fields.customerName}
+          error={message(errors.name)}
+          onChange={(value) => {
+            set.setCustomerName(value);
+            order.clearError("name");
+          }}
+        />
 
         <PhoneField
           value={fields.phone}
@@ -147,96 +154,5 @@ export function ExpressOrderForm({
         />
       </form>
     </section>
-  );
-}
-
-/** The optional address; behind a link it does not lengthen the form. */
-function AddressField({ value, onChange }: { value: string; onChange: (value: string) => void }) {
-  const { t } = useI18n();
-  const [open, setOpen] = useState(false);
-  if (!open && !value) {
-    return (
-      <button type="button" className="xo-add" onClick={() => setOpen(true)}>
-        <Plus size={15} aria-hidden="true" />
-        {t("express.addAddress")}
-      </button>
-    );
-  }
-  return (
-    <Field label={t("express.address")} hint={t("express.addressHint")}>
-      <Input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        autoComplete="street-address"
-        maxLength={500}
-        autoFocus={open && !value}
-      />
-    </Field>
-  );
-}
-
-/**
- * Algerian mobile number, typed left to right. A green tick appears as soon as
- * it is valid; the error waits until the buyer leaves the field.
- */
-function PhoneField({
-  value,
-  error,
-  onChange,
-  onInvalid,
-}: {
-  value: string;
-  error: string | null;
-  onChange: (value: string) => void;
-  onInvalid: () => void;
-}) {
-  const { t } = useI18n();
-  const ok = isValidDzPhone(value);
-  return (
-    <Field label={t("express.phone")} hint={t("express.phoneHint")} error={error} required>
-      <span className="xo-phone">
-        <Input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onBlur={() => value && !ok && onInvalid()}
-          type="tel"
-          inputMode="tel"
-          dir="ltr"
-          autoComplete="tel"
-          placeholder="0555 12 34 56"
-          required
-          maxLength={20}
-        />
-        {ok && <CheckCircle2 size={20} className="xo-phone-ok" aria-label={t("express.phoneOk")} />}
-      </span>
-    </Field>
-  );
-}
-
-/**
- * Three promises, each true of this shop: cash on delivery, a confirmation call
- * before shipping, and the number of wilayas in the owner's delivery list (left
- * out until that list is known, rather than shown with a guessed number).
- */
-function TrustRow() {
-  const { t } = useI18n();
-  const { data: settings } = useStoreSettings();
-  const count = deliveryWilayaCount(settings);
-  const items = [
-    { icon: Banknote, label: t("home2.trust.cod") },
-    { icon: PhoneCall, label: t("express.trustConfirm") },
-    ...(count === null ? [] : [{ icon: Truck, label: t("trust2.wilayas", { count }) }]),
-  ];
-  return (
-    <ul className="xo-trust">
-      {items.map((item) => (
-        <li key={item.label}>
-          <span className="xo-trust-icon" aria-hidden="true">
-            <item.icon size={16} />
-          </span>
-          {item.label}
-        </li>
-      ))}
-    </ul>
   );
 }

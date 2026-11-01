@@ -4,6 +4,7 @@ export const frOrder: Record<keyof typeof arOrder, string> = {
   "express.title": "Commander — paiement à la livraison",
   "express.subtitle": "Remplissez vos informations, nous vous appelons pour confirmer.",
   "express.fullName": "Nom complet",
+  "express.model": "Modèle de votre téléphone",
   "express.namePlaceholder": "Ex. : Amine Benali",
   "express.phone": "Téléphone",
   "express.phoneInvalid": "Numéro invalide. Exemple : 0555123456",
