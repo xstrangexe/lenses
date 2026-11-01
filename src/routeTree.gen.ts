@@ -30,6 +30,7 @@ import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as OrderTokenRouteImport } from './routes/order.$token'
 import { Route as PagesSlugRouteImport } from './routes/pages.$slug'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as ReviewTokenRouteImport } from './routes/review.$token'
 import { Route as AdminProductIdRouteImport } from './routes/admin.product.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -137,6 +138,11 @@ const ProductSlugRoute = ProductSlugRouteImport.update({
   path: '/product/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReviewTokenRoute = ReviewTokenRouteImport.update({
+  id: '/review/$token',
+  path: '/review/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminProductIdRoute = AdminProductIdRouteImport.update({
   id: '/product/$id',
   path: '/product/$id',
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/order/$token': typeof OrderTokenRoute
   '/pages/$slug': typeof PagesSlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/review/$token': typeof ReviewTokenRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/product/$id': typeof AdminProductIdRoute
 }
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/order/$token': typeof OrderTokenRoute
   '/pages/$slug': typeof PagesSlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/review/$token': typeof ReviewTokenRoute
   '/admin': typeof AdminIndexRoute
   '/admin/product/$id': typeof AdminProductIdRoute
 }
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/order/$token': typeof OrderTokenRoute
   '/pages/$slug': typeof PagesSlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/review/$token': typeof ReviewTokenRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/product/$id': typeof AdminProductIdRoute
 }
@@ -238,6 +247,7 @@ export interface FileRouteTypes {
     | '/order/$token'
     | '/pages/$slug'
     | '/product/$slug'
+    | '/review/$token'
     | '/admin/'
     | '/admin/product/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -261,6 +271,7 @@ export interface FileRouteTypes {
     | '/order/$token'
     | '/pages/$slug'
     | '/product/$slug'
+    | '/review/$token'
     | '/admin'
     | '/admin/product/$id'
   id:
@@ -285,6 +296,7 @@ export interface FileRouteTypes {
     | '/order/$token'
     | '/pages/$slug'
     | '/product/$slug'
+    | '/review/$token'
     | '/admin/'
     | '/admin/product/$id'
   fileRoutesById: FileRoutesById
@@ -303,6 +315,7 @@ export interface RootRouteChildren {
   OrderTokenRoute: typeof OrderTokenRoute
   PagesSlugRoute: typeof PagesSlugRoute
   ProductSlugRoute: typeof ProductSlugRoute
+  ReviewTokenRoute: typeof ReviewTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -454,6 +467,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/review/$token': {
+      id: '/review/$token'
+      path: '/review/$token'
+      fullPath: '/review/$token'
+      preLoaderRoute: typeof ReviewTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/product/$id': {
       id: '/admin/product/$id'
       path: '/product/$id'
@@ -504,6 +524,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrderTokenRoute: OrderTokenRoute,
   PagesSlugRoute: PagesSlugRoute,
   ProductSlugRoute: ProductSlugRoute,
+  ReviewTokenRoute: ReviewTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
