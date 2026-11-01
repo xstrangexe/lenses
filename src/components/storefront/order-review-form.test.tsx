@@ -90,6 +90,24 @@ describe("sendReview", () => {
     expect(submit).toHaveBeenCalledWith(expect.objectContaining({ imageUrl: null }));
   });
 
+  it("resends without the photo when the database refuses the photo's address", async () => {
+    shrink.mockResolvedValue(new Blob(["s"]));
+    upload.mockResolvedValue("https://x/review-photos/t/a.jpg");
+    submit
+      .mockResolvedValueOnce({ ok: false, code: "bad_photo" })
+      .mockResolvedValueOnce({ ok: true });
+    await expect(sendReview(args)).resolves.toBe("sent_no_photo");
+    expect(submit).toHaveBeenCalledTimes(2);
+    expect(submit).toHaveBeenLastCalledWith(expect.objectContaining({ imageUrl: null }));
+  });
+
+  it("uploads into the normalised token's folder", async () => {
+    shrink.mockResolvedValue(new Blob(["s"]));
+    upload.mockResolvedValue("https://x/review-photos/t/a.jpg");
+    await sendReview({ ...args, token: TOKEN.toUpperCase() });
+    expect(upload).toHaveBeenCalledWith(TOKEN, expect.any(Blob));
+  });
+
   it("does not touch photo code when there is no photo", async () => {
     await expect(sendReview({ ...args, photo: null })).resolves.toBe("sent");
     expect(shrink).not.toHaveBeenCalled();

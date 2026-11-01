@@ -32,7 +32,7 @@ export function ReviewItem({
         <span className="text-xs text-on-surface-muted">
           {formatRelative(review.created_at, locale)}
         </span>
-        {review.review_orders.length > 0 && <Badge>{t("admin.reviews.fromOrder")}</Badge>}
+        {review.from_order && <Badge>{t("admin.reviews.fromOrder")}</Badge>}
       </div>
 
       {review.products && <p className="text-xs text-on-surface-muted">{review.products.name}</p>}

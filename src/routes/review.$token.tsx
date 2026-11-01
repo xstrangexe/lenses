@@ -5,7 +5,7 @@ import { StoreLayout } from "@/components/storefront/store-layout";
 import { ErrorState, LoadingState } from "@/components/ui/feedback";
 import { translate } from "@/lib/i18n";
 import { useI18n } from "@/lib/i18n-context";
-import { fetchReviewContext } from "@/lib/order-review";
+import { fetchReviewContext, normaliseToken } from "@/lib/order-review";
 
 export const Route = createFileRoute("/review/$token")({
   head: ({ match }) => ({
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/review/$token")({
  * order, so anything else lands on "this link is not available".
  */
 function ReviewPage() {
-  const { token } = Route.useParams();
+  const token = normaliseToken(Route.useParams().token);
   const { t } = useI18n();
   const { data, isPending, isError, refetch } = useQuery({
     queryKey: ["review-context", token],

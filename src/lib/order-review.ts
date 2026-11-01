@@ -34,7 +34,9 @@ export type ReviewResult = { ok: true } | { ok: false; code: ReviewRefusal | "fa
  */
 export async function fetchReviewContext(token: string): Promise<ReviewContext | null> {
   if (!isTokenShaped(token)) return null;
-  const { data, error } = await getSupabase().rpc("review_context", { p_token: token.trim() });
+  const { data, error } = await getSupabase().rpc("review_context", {
+    p_token: normaliseToken(token),
+  });
   if (error?.code === "PGRST202") return null;
   if (error) throw new Error(error.message);
   if (!data || typeof data !== "object") return null;
@@ -51,7 +53,7 @@ export async function submitOrderReview(input: {
 }): Promise<ReviewResult> {
   try {
     const { data, error } = await getSupabase().rpc("submit_order_review", {
-      p_token: input.token,
+      p_token: normaliseToken(input.token),
       p_product_id: input.productId,
       p_rating: input.rating,
       p_comment: input.comment,
@@ -66,6 +68,11 @@ export async function submitOrderReview(input: {
 
 export function reviewErrorKey(code: ReviewRefusal | "failed"): TranslationKey {
   return `review.err.${code}`;
+}
+
+/** The token as the database and the upload folder spell it: trimmed, lower case. */
+export function normaliseToken(token: string): string {
+  return token.trim().toLowerCase();
 }
 
 /** Only a delivered order can be reviewed; the database enforces the same rule. */

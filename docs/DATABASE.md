@@ -112,7 +112,8 @@ grant update (customer_name, phone, wilaya, commune, address, note, status,
 their order's token (`review_context()` tells the review page what to show). Photos go to the
 `review-photos` bucket, one folder per order token, writable only for a delivered order. See
 `supabase/review-invites.sql` (what to run on an existing shop), `review-invites-verify.sql`
-(checks, which clean up after themselves) and `review-invites-rollback.sql`.
+(checks, which clean up after themselves) and `review-invites-rollback.sql`. A photo uploaded
+before a review that then fails stays in the bucket (a few KB; delete from Storage if wanted).
 
 Money is stored as `integer` in Algerian dinar. Never floating point: dinar amounts with
 two decimal places are not a thing here, and a float will eventually produce a total that

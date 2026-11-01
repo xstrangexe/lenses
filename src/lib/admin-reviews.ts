@@ -18,19 +18,44 @@ export type AdminReview = {
   is_approved: boolean;
   created_at: string;
   products: { name: string; slug: string } | null;
-  /** One row when the review was written through an order invite, none otherwise. */
-  review_orders: { order_id: string }[];
+  /** True when the review was written through an order invite (a row in `review_orders`). */
+  from_order: boolean;
 };
 
 const PAGE_SIZE = 15;
 export const ADMIN_REVIEWS_KEY = "admin_reviews";
+
+/** Adds the "from a real order" flag to reviews, given the ids that have a link row. */
+export function withOrderMarks(
+  rows: Omit<AdminReview, "from_order">[],
+  linked: ReadonlySet<string>,
+): AdminReview[] {
+  return rows.map((row) => ({ ...row, from_order: linked.has(row.id) }));
+}
+
+/**
+ * Which of these reviews came from an order invite. A second query rather than
+ * an embed: `review_orders.review_id` is also its primary key, which PostgREST
+ * reads as one-to-one (an object or null, not a list), and an embed would fail
+ * the whole list before the review-invites SQL has been run. Any error here
+ * just means no marks.
+ */
+async function fetchOrderLinks(reviewIds: string[]): Promise<Set<string>> {
+  if (reviewIds.length === 0) return new Set();
+  const { data, error } = await getSupabase()
+    .from("review_orders" as never)
+    .select("review_id")
+    .in("review_id", reviewIds);
+  if (error || !Array.isArray(data)) return new Set();
+  return new Set((data as { review_id: string }[]).map((r) => r.review_id));
+}
 
 async function fetchReviewsPage(approved: boolean, page: number) {
   const from = (Math.max(page, 1) - 1) * PAGE_SIZE;
   const { data, error, count } = await getSupabase()
     .from("reviews")
     .select(
-      "id, product_id, customer_name, rating, comment, image_url, is_approved, created_at, products ( name, slug ), review_orders ( order_id )",
+      "id, product_id, customer_name, rating, comment, image_url, is_approved, created_at, products ( name, slug )",
       { count: "exact" },
     )
     .eq("is_approved", approved)
@@ -38,9 +63,10 @@ async function fetchReviewsPage(approved: boolean, page: number) {
     .order("id", { ascending: false })
     .range(from, from + PAGE_SIZE - 1);
   if (error) throw new Error(error.message);
+  const rows = (data ?? []) as unknown as Omit<AdminReview, "from_order">[];
   const total = count ?? 0;
   return {
-    rows: (data ?? []) as unknown as AdminReview[],
+    rows: withOrderMarks(rows, await fetchOrderLinks(rows.map((r) => r.id))),
     total,
     pageCount: Math.max(1, Math.ceil(total / PAGE_SIZE)),
   };

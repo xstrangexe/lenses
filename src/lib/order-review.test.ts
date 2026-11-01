@@ -6,6 +6,7 @@ vi.mock("./supabase/client", () => ({ getSupabase: () => ({ rpc }) }));
 import {
   fetchReviewContext,
   isReviewable,
+  normaliseToken,
   reviewErrorKey,
   reviewLink,
   submitOrderReview,
@@ -19,6 +20,12 @@ describe("isReviewable", () => {
     for (const status of ["pending", "confirmed", "shipped", "refused", "cancelled", "returned"]) {
       expect(isReviewable(status)).toBe(false);
     }
+  });
+});
+
+describe("normaliseToken", () => {
+  it("trims and lower-cases, the form the database and the upload folder use", () => {
+    expect(normaliseToken("  0F8FAD5B-D9CB-469F-A165-70867728950E ")).toBe(TOKEN);
   });
 });
 
@@ -65,6 +72,12 @@ describe("fetchReviewContext", () => {
     await expect(fetchReviewContext(TOKEN)).rejects.toThrow("down");
   });
 
+  it("asks the database with the normalised token even when the link was upper case", async () => {
+    rpc.mockResolvedValue({ data: null, error: null });
+    await fetchReviewContext(TOKEN.toUpperCase());
+    expect(rpc).toHaveBeenCalledWith("review_context", { p_token: TOKEN });
+  });
+
   it("returns the products to review", async () => {
     const context = {
       first_name: "Amine",
@@ -91,6 +104,15 @@ describe("submitOrderReview", () => {
       p_comment: "جيد",
       p_image_url: null,
     });
+  });
+
+  it("sends the normalised token", async () => {
+    rpc.mockResolvedValue({ data: { ok: true }, error: null });
+    await submitOrderReview({ ...input, token: TOKEN.toUpperCase() });
+    expect(rpc).toHaveBeenCalledWith(
+      "submit_order_review",
+      expect.objectContaining({ p_token: TOKEN }),
+    );
   });
 
   it("passes a refusal code through", async () => {

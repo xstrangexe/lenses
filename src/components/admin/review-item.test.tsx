@@ -18,7 +18,7 @@ const base: AdminReview = {
   is_approved: false,
   created_at: "2026-11-01T10:00:00Z",
   products: { name: "Case", slug: "case" },
-  review_orders: [],
+  from_order: false,
 };
 
 const render = (review: AdminReview) =>
@@ -37,9 +37,7 @@ describe("admin ReviewItem", () => {
   });
 
   it("marks a review that came from a real order", () => {
-    expect(render({ ...base, review_orders: [{ order_id: "o1" }] })).toContain(
-      "admin.reviews.fromOrder",
-    );
+    expect(render({ ...base, from_order: true })).toContain("admin.reviews.fromOrder");
     expect(render(base)).not.toContain("admin.reviews.fromOrder");
   });
 });

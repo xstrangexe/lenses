@@ -79,6 +79,15 @@ select 'submit: photo from another order folder', 'bad_photo',
        public.submit_order_review(delivered, product_ok, 5, 'تعليق جيد',
          'https://example.com/storage/v1/object/public/review-photos/00000000-0000-4000-8000-000000000000/a.jpg') ->> 'code' from _t;
 
+insert into _r (check_name, expected, actual)
+select 'submit: photo address on another website', 'bad_photo',
+       public.submit_order_review(delivered, product_ok, 5, 'تعليق جيد',
+         'https://evil.example/x?/review-photos/' || delivered::text || '/a.jpg') ->> 'code' from _t;
+insert into _r (check_name, expected, actual)
+select 'submit: photo that was never uploaded', 'bad_photo',
+       public.submit_order_review(delivered, product_ok, 5, 'تعليق جيد',
+         'https://abc.supabase.co/storage/v1/object/public/review-photos/' || delivered::text || '/missing.jpg') ->> 'code' from _t;
+
 -- 4. the happy path, then a double tap
 insert into _r (check_name, expected, actual)
 select 'submit: a good review is saved', 'true',
@@ -99,11 +108,13 @@ insert into _r (check_name, expected, actual) values
   ('first name: two words', 'Amine', public.review_first_name('Amine Ben Ali')),
   ('first name: Arabic', 'محمد', public.review_first_name('محمد أمين')),
   ('first name: one letter', 'زبون', public.review_first_name('A Benali')),
+  ('first name: a very long word is cut to 60', '60', length(public.review_first_name(repeat('a', 200)))::text),
   ('anon cannot read review_orders', 'false', has_table_privilege('anon', 'public.review_orders', 'select')::text),
   ('bucket review-photos: 3 MB limit', '3145728',
      coalesce((select file_size_limit::text from storage.buckets where id = 'review-photos'), 'no bucket')),
   ('upload allowed for a random folder', 'false',
      public.is_review_upload_allowed('00000000-0000-4000-8000-000000000000')::text);
+-- (true only while that order still has a product nobody reviewed yet)
 insert into _r (check_name, expected, actual)
 select 'upload allowed for the delivered order folder', 'true',
        public.is_review_upload_allowed(delivered::text)::text from _t;

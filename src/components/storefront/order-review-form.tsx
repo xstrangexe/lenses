@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Field, Textarea } from "@/components/ui/form";
 import { useI18n } from "@/lib/i18n-context";
 import type { TranslationKey } from "@/lib/i18n";
-import { reviewErrorKey, submitOrderReview } from "@/lib/order-review";
+import { normaliseToken, reviewErrorKey, submitOrderReview } from "@/lib/order-review";
 import { shrinkPhoto, uploadReviewPhoto } from "@/lib/review-photo";
 import { StarRatingInput } from "./star-rating";
 
@@ -23,21 +23,30 @@ export async function sendReview(args: {
   comment: string;
   photo: File | null;
 }): Promise<SendResult> {
+  const token = normaliseToken(args.token);
+  const send = (imageUrl: string | null) =>
+    submitOrderReview({
+      token,
+      productId: args.productId,
+      rating: args.rating,
+      comment: args.comment,
+      imageUrl,
+    });
+
   let imageUrl: string | null = null;
   if (args.photo) {
     try {
-      imageUrl = await uploadReviewPhoto(args.token, await shrinkPhoto(args.photo));
+      imageUrl = await uploadReviewPhoto(token, await shrinkPhoto(args.photo));
     } catch {
       imageUrl = null;
     }
   }
-  const result = await submitOrderReview({
-    token: args.token,
-    productId: args.productId,
-    rating: args.rating,
-    comment: args.comment,
-    imageUrl,
-  });
+  let result = await send(imageUrl);
+  // A refused photo address must not cost the buyer their review.
+  if (!result.ok && result.code === "bad_photo" && imageUrl) {
+    imageUrl = null;
+    result = await send(null);
+  }
   if (result.ok || result.code === "already_reviewed") {
     return args.photo && !imageUrl ? "sent_no_photo" : "sent";
   }

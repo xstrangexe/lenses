@@ -2221,7 +2221,7 @@ set search_path = ''
 as $$
   select case
     when length(regexp_replace(trim(coalesce(p_name, '')), '\s.*$', '')) >= 2
-      then regexp_replace(trim(p_name), '\s.*$', '')
+      then left(regexp_replace(trim(p_name), '\s.*$', ''), 60)
     else 'زبون'
   end;
 $$;
@@ -2295,6 +2295,7 @@ declare
   v_order public.orders%rowtype;
   v_comment text := trim(coalesce(p_comment, ''));
   v_review_id uuid;
+  v_photo_file text;
 begin
   select * into v_order from public.orders where public_token = p_token;
   if not found or v_order.status <> 'delivered' then
@@ -2325,12 +2326,26 @@ begin
     return jsonb_build_object('ok', false, 'code', 'bad_comment');
   end if;
 
-  if p_image_url is not null and (
-    p_image_url !~ '^https://[^[:space:]]+$'
-    or length(p_image_url) > 500
-    or position('/review-photos/' || p_token::text || '/' in p_image_url) = 0
-  ) then
-    return jsonb_build_object('ok', false, 'code', 'bad_photo');
+  -- The photo must be a file this order's buyer uploaded to this bucket: a
+  -- Supabase storage address ending in review-photos/<token>/<file>, and that
+  -- file must exist. Anything else (another website, a made-up name) is refused.
+  if p_image_url is not null then
+    v_photo_file := substring(
+      p_image_url from (
+        '^https://[a-z0-9-]+\.supabase\.co/storage/v1/object/public/review-photos/'
+        || p_token::text || '/([A-Za-z0-9._-]+)$'
+      )
+    );
+    if v_photo_file is null
+       or length(p_image_url) > 500
+       or not exists (
+         select 1 from storage.objects so
+         where so.bucket_id = 'review-photos'
+           and so.name = p_token::text || '/' || v_photo_file
+       )
+    then
+      return jsonb_build_object('ok', false, 'code', 'bad_photo');
+    end if;
   end if;
 
   insert into public.reviews (product_id, customer_name, rating, comment, image_url)
@@ -2357,7 +2372,9 @@ $$;
 -- --- Who may upload a photo --------------------------------------------------
 -- A storage policy cannot read `orders` as an anonymous visitor, so this
 -- security-definer helper answers one question: is this folder name the token
--- of a delivered order?
+-- of a delivered order that still has a product nobody has reviewed? Once every
+-- product is reviewed the folder closes, so a link that leaks later cannot be
+-- used as free file hosting.
 create or replace function public.is_review_upload_allowed(p_folder text)
 returns boolean
 language sql
@@ -2367,7 +2384,18 @@ set search_path = ''
 as $$
   select exists (
     select 1 from public.orders o
-    where o.public_token::text = p_folder and o.status = 'delivered'
+    where o.public_token::text = p_folder
+      and o.status = 'delivered'
+      and exists (
+        select 1
+        from public.order_items oi
+        join public.product_variants pv on pv.id = oi.variant_id
+        where oi.order_id = o.id
+          and not exists (
+            select 1 from public.review_orders ro
+            where ro.order_id = o.id and ro.product_id = pv.product_id
+          )
+      )
   );
 $$;
 
