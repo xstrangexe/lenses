@@ -814,6 +814,17 @@ export type Database = {
         Args: { p_order_id: string };
         Returns: undefined;
       };
+      review_context: { Args: { p_token: string }; Returns: Json };
+      submit_order_review: {
+        Args: {
+          p_token: string;
+          p_product_id: string;
+          p_rating: number;
+          p_comment: string;
+          p_image_url: string | null;
+        };
+        Returns: Json;
+      };
       track_order: { Args: { p_token: string }; Returns: Json };
     };
     Enums: {
