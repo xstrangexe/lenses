@@ -26,10 +26,16 @@ export type ReviewRefusal =
 
 export type ReviewResult = { ok: true } | { ok: false; code: ReviewRefusal | "failed" };
 
-/** Null for a malformed token, an unknown order, or one not delivered yet. Throws on a network error. */
+/**
+ * Null for a malformed token, an unknown order, or one not delivered yet. Also
+ * null while the shop's database does not have the review functions yet
+ * (PostgREST code PGRST202), so code can ship before the SQL is run. Throws on
+ * any other error.
+ */
 export async function fetchReviewContext(token: string): Promise<ReviewContext | null> {
   if (!isTokenShaped(token)) return null;
   const { data, error } = await getSupabase().rpc("review_context", { p_token: token.trim() });
+  if (error?.code === "PGRST202") return null;
   if (error) throw new Error(error.message);
   if (!data || typeof data !== "object") return null;
   return data as unknown as ReviewContext;

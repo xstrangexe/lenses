@@ -6,6 +6,20 @@ All notable changes to OpenStore DZ. Format follows
 
 ## [Unreleased]
 
+### 2026-11-01 — a delivered buyer can review their order, with a photo
+
+**Added:** the owner can send a delivered buyer a WhatsApp message with a personal link
+(`/review/<order token>`, from the order's detail in the admin). The page asks for stars, a
+few words and one optional photo, shrunk on the phone before it is sent. The review arrives
+unapproved and tied to the real order; the admin moderation list now shows its photo (it
+showed none before) and a "real order" mark. A delivered order's own page also links to it.
+
+**Needs a one-time SQL step:** `supabase/review-invites.sql` adds one table, three functions
+and one storage bucket, and changes nothing existing; `review-invites-rollback.sql` undoes
+it. Until it is run, the review page says the link is unavailable.
+
+Design and plan: `docs/superpowers/specs/2026-11-01-review-invites-design.md`.
+
 ### 2026-10-23 — a first English visit reads left to right; a real demo catalogue
 
 **Added:** `supabase/demo-catalogue.sql`, an optional, idempotent demo shop of 20

@@ -52,6 +52,19 @@ describe("fetchReviewContext", () => {
     expect(rpc).toHaveBeenCalledWith("review_context", { p_token: TOKEN });
   });
 
+  it("treats a database without the review functions yet as an unavailable link", async () => {
+    rpc.mockResolvedValue({
+      data: null,
+      error: { code: "PGRST202", message: "Could not find the function public.review_context" },
+    });
+    await expect(fetchReviewContext(TOKEN)).resolves.toBeNull();
+  });
+
+  it("still throws on any other database error", async () => {
+    rpc.mockResolvedValue({ data: null, error: { code: "500", message: "down" } });
+    await expect(fetchReviewContext(TOKEN)).rejects.toThrow("down");
+  });
+
   it("returns the products to review", async () => {
     const context = {
       first_name: "Amine",

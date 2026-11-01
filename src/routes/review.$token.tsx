@@ -4,6 +4,7 @@ import { ReviewSections } from "@/components/storefront/order-review-sections";
 import { StoreLayout } from "@/components/storefront/store-layout";
 import { ErrorState, LoadingState } from "@/components/ui/feedback";
 import { translate } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n-context";
 import { fetchReviewContext } from "@/lib/order-review";
 
 export const Route = createFileRoute("/review/$token")({
@@ -23,7 +24,8 @@ export const Route = createFileRoute("/review/$token")({
  */
 function ReviewPage() {
   const { token } = Route.useParams();
-  const { data, isPending, isError, error, refetch } = useQuery({
+  const { t } = useI18n();
+  const { data, isPending, isError, refetch } = useQuery({
     queryKey: ["review-context", token],
     queryFn: () => fetchReviewContext(token),
     retry: false,
@@ -35,7 +37,7 @@ function ReviewPage() {
         {isPending ? (
           <LoadingState />
         ) : isError ? (
-          <ErrorState message={error.message} onRetry={() => void refetch()} />
+          <ErrorState message={t("review.err.failed")} onRetry={() => void refetch()} />
         ) : (
           <ReviewSections token={token} context={data} />
         )}

@@ -106,6 +106,13 @@ grant update (customer_name, phone, wilaya, commune, address, note, status,
 | `orders`           | customer, delivery, status, computed totals                 | no             | yes         |
 | `order_items`      | snapshot of what was bought, at the price it was bought for | no             | yes         |
 | `reviews`          | rating, comment, image                                      | approved only  | yes         |
+| `review_orders`    | which order (and product) a review came from                | no             | yes         |
+
+`review_orders` is written only by `submit_order_review()`, which a delivered buyer calls with
+their order's token (`review_context()` tells the review page what to show). Photos go to the
+`review-photos` bucket, one folder per order token, writable only for a delivered order. See
+`supabase/review-invites.sql` (what to run on an existing shop), `review-invites-verify.sql`
+(checks, which clean up after themselves) and `review-invites-rollback.sql`.
 
 Money is stored as `integer` in Algerian dinar. Never floating point: dinar amounts with
 two decimal places are not a thing here, and a float will eventually produce a total that
