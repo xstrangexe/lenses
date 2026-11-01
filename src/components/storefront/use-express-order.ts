@@ -9,11 +9,19 @@ import {
   type CatalogueVariant,
 } from "@/lib/queries";
 import { rememberOrderPhoto } from "@/lib/order-photo";
-import { pickupFee, resolveDelivery, useDeliveryZones, type DeliveryMethod } from "@/lib/delivery";
+import { pickupFee, resolveDelivery, useDeliveryZones } from "@/lib/delivery";
 import { useCommunes } from "@/lib/communes";
 import { placeOrder } from "@/lib/order";
 import { trackInitiateCheckout, trackPurchase } from "@/lib/pixels";
-import { isValidDzPhone, normalisePhone, orderAddress, orderErrorKey } from "@/lib/express-order";
+import { zrOfficesIn } from "@/lib/zr-offices";
+import {
+  ORDER_FIELDS,
+  normalisePhone,
+  orderAddress,
+  orderErrorKey,
+  orderFieldErrors,
+} from "@/lib/express-order";
+import { useOrderFields } from "./use-order-fields";
 
 /**
  * State and submission for the express order form.
@@ -24,6 +32,10 @@ import { isValidDzPhone, normalisePhone, orderAddress, orderErrorKey } from "@/l
  * then is the purchase event sent. `busy` is a ref, not state, so a double tap
  * cannot send a second order before the button re-renders as disabled; it is
  * released only on failure, so a retry is possible and a success is final.
+ *
+ * The form is `noValidate`: `submit` checks every field itself and puts each
+ * problem under its field in the shop's own words, then moves to the first one.
+ * A field's message goes away as soon as the buyer changes that field.
  */
 export function useExpressOrder({
   product,
@@ -41,15 +53,8 @@ export function useExpressOrder({
   const { data: settings } = useStoreSettings();
   const { data: zones = [] } = useDeliveryZones();
 
-  const [customerName, setCustomerName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [wilaya, setWilaya] = useState("");
-  const [commune, setCommune] = useState("");
-  const [address, setAddress] = useState("");
-  const [method, setMethod] = useState<DeliveryMethod>("home");
-  const [office, setOffice] = useState({ id: "", name: "" });
-  const [quantity, setQuantity] = useState(1);
-  const [phoneError, setPhoneError] = useState<string | null>(null);
+  const form = useOrderFields();
+  const { customerName, phone, wilaya, commune, address, method, office, quantity } = form.fields;
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const busy = useRef(false);
@@ -66,13 +71,6 @@ export function useExpressOrder({
   const officeFee = pickupFee(zones, wilaya || null);
   const item = () => [{ id: product.id, name, price: unitPrice, quantity }];
 
-  const chooseWilaya = (next: string) => {
-    setWilaya(next);
-    setCommune("");
-    setMethod("home");
-    setOffice({ id: "", name: "" });
-  };
-
   // "Started" means the buyer typed or picked something, not that the form
   // scrolled into view.
   const markStarted = () => {
@@ -81,17 +79,29 @@ export function useExpressOrder({
     trackInitiateCheckout(item());
   };
 
-  const submit = async (event: React.FormEvent) => {
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (busy.current) return;
     setError(null);
+    const element = event.currentTarget;
+    const found = orderFieldErrors({
+      name: customerName,
+      phone,
+      wilaya,
+      commune,
+      officeId: office.id,
+      officeNeeded: method === "stopdesk" && officeFee !== null && zrOfficesIn(wilaya).length > 0,
+    });
+    form.setErrors(found);
+    // The model is picked above the form, so a missing one takes the buyer back
+    // up there; the field messages are waiting when they come back down.
     if (!selected) {
       setError(t("express.pickVariant"));
       onMissingVariant();
       return;
     }
-    if (!isValidDzPhone(phone)) {
-      setPhoneError(t("express.phoneInvalid"));
+    if (ORDER_FIELDS.some((field) => found[field])) {
+      requestAnimationFrame(() => focusFirstError(element));
       return;
     }
 
@@ -128,19 +138,11 @@ export function useExpressOrder({
   };
 
   return {
-    fields: { customerName, phone, wilaya, commune, address, method, office, quantity },
-    set: {
-      setCustomerName,
-      setPhone,
-      setCommune,
-      setAddress,
-      setMethod,
-      setOffice,
-      setQuantity,
-      chooseWilaya,
-    },
-    phoneError,
-    setPhoneError,
+    fields: form.fields,
+    set: form.set,
+    errors: form.errors,
+    clearError: form.clearError,
+    showError: form.showError,
     error,
     submitting,
     communes,
@@ -152,4 +154,12 @@ export function useExpressOrder({
     markStarted,
     submit,
   };
+}
+
+/** Brings the first field with a message to the middle of the screen and focuses it. */
+function focusFirstError(form: HTMLFormElement) {
+  const field = form.querySelector<HTMLElement>('[aria-invalid="true"]');
+  if (!field) return;
+  field.scrollIntoView({ behavior: "smooth", block: "center" });
+  field.focus({ preventScroll: true });
 }

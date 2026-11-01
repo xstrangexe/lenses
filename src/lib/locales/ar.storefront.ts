@@ -185,7 +185,6 @@ export const arStorefront = {
   "home.hero.body": "اطلب دركا وخلص كي توصلك السلعة. بلا كارطة وبلا حساب.",
   "home.trust.cod.title": "الدفع عند الاستلام",
   "home.trust.cod.body": "تخلص كاش كي توصلك الطلبية، بلا كارطة بنكية.",
-  "home.trust.delivery.title": "التوصيل لـ 58 ولاية",
   "home.trust.delivery.body": "للدار ولا للمكتب، فكامل الجزائر.",
   "home.trust.returns.title": "استبدال خلال {days} أيام",
   "home.trust.returns.body": "إذا ما عجبكش المنتوج تقدر ترجعو في المدة المحددة.",

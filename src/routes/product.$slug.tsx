@@ -5,7 +5,13 @@ import { SizeGuide } from "@/components/storefront/size-guide";
 import { ReviewsSection } from "@/components/storefront/reviews";
 import { ProductFaq } from "@/components/storefront/product-faq";
 import { ErrorState } from "@/components/ui/feedback";
-import { productImage, productQuery, reviewsQuery, useProduct } from "@/lib/queries";
+import {
+  productImage,
+  productQuery,
+  reviewsQuery,
+  storeSettingsQuery,
+  useProduct,
+} from "@/lib/queries";
 import { formatDzd } from "@/lib/format";
 import { absoluteUrl } from "@/lib/site-url";
 import { sizeGuidesQuery } from "@/lib/size-guides";
@@ -20,7 +26,10 @@ export const Route = createFileRoute("/product/$slug")({
     if (!product) throw notFound();
     // Reviews and size guide are rendered below the fold; fetch them during SSR
     // too so the first paint is complete, but a failure must not blank the page.
+    // The settings carry the delivery list, so the wilaya count is right on the
+    // first paint instead of appearing after load.
     await Promise.all([
+      context.queryClient.ensureQueryData(storeSettingsQuery()).catch(() => null),
       context.queryClient.ensureQueryData(reviewsQuery(product.id)).catch(() => null),
       context.queryClient.ensureQueryData(sizeGuidesQuery(product.id)).catch(() => null),
     ]);

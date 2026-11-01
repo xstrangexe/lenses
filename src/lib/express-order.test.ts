@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { isValidDzPhone, normalisePhone, orderAddress, orderErrorKey } from "./express-order";
+import {
+  isValidDzPhone,
+  normalisePhone,
+  orderAddress,
+  orderErrorKey,
+  orderFieldErrors,
+} from "./express-order";
 
 describe("isValidDzPhone", () => {
   it("accepts Algerian mobiles in local and international form", () => {
@@ -59,5 +65,46 @@ describe("orderErrorKey", () => {
     expect(orderErrorKey("Variant unavailable")).toBe("express.unavailable");
     expect(orderErrorKey("Failed to fetch")).toBe("express.failed");
     expect(orderErrorKey(null)).toBe("express.failed");
+  });
+});
+
+describe("orderFieldErrors", () => {
+  const filled = {
+    name: "Amine",
+    phone: "0555123456",
+    wilaya: "Alger",
+    commune: "Bab Ezzouar",
+    officeId: "",
+    officeNeeded: false,
+  };
+
+  it("passes a complete form", () => {
+    expect(orderFieldErrors(filled)).toEqual({});
+  });
+
+  it("reports every empty field at once", () => {
+    const empty = { ...filled, name: " ", phone: "", wilaya: "", commune: "" };
+    expect(orderFieldErrors(empty)).toEqual({
+      name: "express.nameMissing",
+      phone: "express.phoneMissing",
+      wilaya: "express.wilayaMissing",
+    });
+  });
+
+  it("tells a wrong number apart from a missing one", () => {
+    expect(orderFieldErrors({ ...filled, phone: "1234" }).phone).toBe("express.phoneInvalid");
+  });
+
+  it("asks for the commune once the wilaya is picked", () => {
+    expect(orderFieldErrors({ ...filled, commune: "" })).toEqual({
+      commune: "express.communeMissing",
+    });
+  });
+
+  it("asks for the office only when pickup has offices to choose from", () => {
+    expect(orderFieldErrors({ ...filled, officeNeeded: true }).office).toBe(
+      "express.officeMissing",
+    );
+    expect(orderFieldErrors({ ...filled, officeNeeded: true, officeId: "12" })).toEqual({});
   });
 });

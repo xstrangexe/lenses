@@ -190,7 +190,6 @@ export const frStorefront = {
     "Commandez aujourd’hui et payez en espèces à la livraison. Sans carte, sans compte.",
   "home.trust.cod.title": "Paiement à la livraison",
   "home.trust.cod.body": "Vous payez en espèces à la réception, sans carte bancaire.",
-  "home.trust.delivery.title": "Livraison dans 58 wilayas",
   "home.trust.delivery.body": "Nous couvrons tout le pays via des transporteurs fiables.",
   "home.trust.returns.title": "Échange sous {days} jours",
   "home.trust.returns.body": "Un produit qui ne vous plaît pas peut être retourné.",

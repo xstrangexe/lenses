@@ -11,11 +11,10 @@ import {
 import { availableModels } from "@/lib/phone-models";
 import { ModelFinder } from "@/components/storefront/home-finder";
 import { ProductSpotlight } from "@/components/storefront/home-spotlight";
-import { WILAYAS } from "@/lib/wilayas";
 import { ErrorState, NoProducts, ProductSkeleton } from "@/components/ui/feedback";
 import { SetupCheck } from "@/components/setup-check";
 import { supabaseConfigProblem } from "@/lib/supabase/client";
-import { reviewsQuery, storeSettingsQuery } from "@/lib/queries";
+import { deliveryWilayaCount, reviewsQuery, storeSettingsQuery } from "@/lib/queries";
 import { EMPTY_FILTERS, cataloguePageQuery, useCataloguePage } from "@/lib/catalogue";
 import { useI18n } from "@/lib/i18n-context";
 import { absoluteUrl } from "@/lib/site-url";
@@ -47,10 +46,11 @@ export const Route = createFileRoute("/")({
     const name = s?.name?.trim();
     const tagline = (ar ? s?.tagline : s?.tagline_fr)?.trim();
     const title = name ? `${name}${tagline ? ` — ${tagline}` : ""}` : "SHOPORA";
+    const count = deliveryWilayaCount(s);
     const description =
       (ar ? s?.description : s?.description_fr)?.trim() ||
       (ar
-        ? "تسوق أونلاين مع الدفع عند الاستلام والتوصيل إلى 58 ولاية."
+        ? `تسوق أونلاين مع الدفع عند الاستلام${count ? ` والتوصيل إلى ${count} ولاية` : ""}.`
         : "Shop online, pay cash on delivery.");
     return {
       meta: [
@@ -90,7 +90,7 @@ function Home() {
   // iPhone models, so lenses or organisers in the catalogue stay off it.
   const cases = (catalogue.data?.products ?? []).filter((p) => availableModels([p]).length > 0);
   const grid = cases.slice(0, GRID_SIZE);
-  const wilayaCount = settings?.delivery_wilayas?.length || WILAYAS.length;
+  const wilayaCount = deliveryWilayaCount(settings);
 
   // The YouCan page's order: black hero and shop window, the three promises,
   // model finder, more cases, product of the week, and how to order.

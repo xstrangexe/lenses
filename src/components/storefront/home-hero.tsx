@@ -107,7 +107,7 @@ function stars(section: HTMLElement | null) {
  * wilayas in 1 to 3 days (from the owner's delivery list) and the exchange
  * window. Said once on the home page; the page does not repeat them.
  */
-export function TrustBar(props: { returnsDays: number; wilayaCount: number }) {
+export function TrustBar(props: { returnsDays: number; wilayaCount: number | null }) {
   return (
     <section className="container-page pt-4 pb-2">
       <TrustCard {...props} />

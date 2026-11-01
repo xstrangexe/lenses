@@ -3,7 +3,12 @@ import { getSupabase } from "./supabase/client";
 
 // Re-exported so existing imports from "@/lib/queries" keep working. The
 // implementation lives in ./store-settings, split out at the 250-line limit.
-export { storeSettingsQuery, useStoreSettings, type StoreSettings } from "./store-settings";
+export {
+  deliveryWilayaCount,
+  storeSettingsQuery,
+  useStoreSettings,
+  type StoreSettings,
+} from "./store-settings";
 
 /**
  * Public catalogue reads.

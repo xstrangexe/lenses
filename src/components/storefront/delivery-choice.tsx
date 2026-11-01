@@ -23,6 +23,7 @@ export function DeliveryChoice({
   pickupFee,
   method,
   officeId,
+  officeError,
   onChange,
 }: {
   wilaya: string;
@@ -30,6 +31,7 @@ export function DeliveryChoice({
   pickupFee: number | null;
   method: DeliveryMethod;
   officeId: string;
+  officeError?: string | null;
   onChange: (next: { method: DeliveryMethod; officeId: string; officeName: string }) => void;
 }) {
   const { t, locale } = useI18n();
@@ -89,7 +91,7 @@ export function DeliveryChoice({
         wilaya &&
         pickupFee !== null &&
         (list.length > 0 ? (
-          <Field label={t("checkout.stopdesk.choose")} required>
+          <Field label={t("checkout.stopdesk.choose")} error={officeError} required>
             <Select
               value={officeId}
               required

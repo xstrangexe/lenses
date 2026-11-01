@@ -1,5 +1,6 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { getSupabase } from "./supabase/client";
+import { WILAYAS } from "./wilayas";
 
 /**
  * Store settings.
@@ -60,4 +61,15 @@ export const storeSettingsQuery = () =>
 
 export function useStoreSettings() {
   return useQuery(storeSettingsQuery());
+}
+
+/**
+ * How many wilayas the shop delivers to: the owner's delivery list, or all of
+ * them when the list is empty (the order form then offers every wilaya). Null
+ * while the settings are unknown, so a page shows no count rather than a wrong
+ * one that changes after load.
+ */
+export function deliveryWilayaCount(settings: StoreSettings | null | undefined): number | null {
+  if (!settings) return null;
+  return settings.delivery_wilayas?.length || WILAYAS.length;
 }

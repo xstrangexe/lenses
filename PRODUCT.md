@@ -22,7 +22,7 @@ and confirmed by phone.
 
 ## Positioning
 
-An Algeria-first store: Arabic and RTL by default, all 58 wilayas with ZR Express home or
+An Algeria-first store: Arabic and RTL by default, the wilayas in the owner's delivery list (55 today: ZR Express does not reach Tindouf, Bordj Badji Mokhtar or Djanet) with ZR Express home or
 pickup-office delivery, and no account, cart or online payment between the buyer and the order.
 
 ## Operating Context

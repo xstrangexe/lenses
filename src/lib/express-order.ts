@@ -44,6 +44,35 @@ export function orderAddress(typed: string, commune: string, wilaya: string): st
   return [own, commune, wilaya].filter(Boolean).join("، ");
 }
 
+/** The order form's fields that can be wrong, in the order they appear. */
+export const ORDER_FIELDS = ["name", "phone", "wilaya", "commune", "office"] as const;
+export type OrderField = (typeof ORDER_FIELDS)[number];
+export type OrderFieldErrors = Partial<Record<OrderField, TranslationKey>>;
+
+/**
+ * Every problem in the form at once, so the buyer sees them all under their
+ * fields in one go instead of the browser's one-at-a-time tooltip in the
+ * phone's language. The office is needed only when the buyer chose pickup in a
+ * wilaya that has ZR offices to pick from.
+ */
+export function orderFieldErrors(fields: {
+  name: string;
+  phone: string;
+  wilaya: string;
+  commune: string;
+  officeId: string;
+  officeNeeded: boolean;
+}): OrderFieldErrors {
+  const errors: OrderFieldErrors = {};
+  if (fields.name.trim().length < 2) errors.name = "express.nameMissing";
+  if (!fields.phone.trim()) errors.phone = "express.phoneMissing";
+  else if (!isValidDzPhone(fields.phone)) errors.phone = "express.phoneInvalid";
+  if (!fields.wilaya) errors.wilaya = "express.wilayaMissing";
+  else if (!fields.commune.trim()) errors.commune = "express.communeMissing";
+  if (fields.officeNeeded && !fields.officeId) errors.office = "express.officeMissing";
+  return errors;
+}
+
 /** Maps a refusal from `place_order()` to a sentence the buyer can act on. */
 export function orderErrorKey(message: string | null, code?: string): TranslationKey {
   if (code === "phone_blocked") return "checkout.error.phone_blocked";

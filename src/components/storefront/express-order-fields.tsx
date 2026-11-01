@@ -17,12 +17,16 @@ export function WilayaCommuneFields({
   communes,
   onWilaya,
   onCommune,
+  wilayaError,
+  communeError,
 }: {
   wilaya: string;
   commune: string;
   communes: [latin: string, arabic: string][];
   onWilaya: (wilaya: string) => void;
   onCommune: (commune: string) => void;
+  wilayaError?: string | null;
+  communeError?: string | null;
 }) {
   const { t, locale } = useI18n();
   const { data: settings } = useStoreSettings();
@@ -32,7 +36,7 @@ export function WilayaCommuneFields({
 
   return (
     <div className="grid grid-cols-2 gap-3">
-      <Field label={t("express.wilaya")} required>
+      <Field label={t("express.wilaya")} error={wilayaError} required>
         <Select value={wilaya} onChange={(e) => onWilaya(e.target.value)} required>
           <option value="">{t("express.selectWilaya")}</option>
           {deliverable.map((w) => (
@@ -43,7 +47,7 @@ export function WilayaCommuneFields({
         </Select>
       </Field>
 
-      <Field label={t("express.commune")} required>
+      <Field label={t("express.commune")} error={communeError} required>
         {communes.length > 0 ? (
           <Select value={commune} onChange={(e) => onCommune(e.target.value)} required>
             <option value="">{t("express.selectCommune")}</option>

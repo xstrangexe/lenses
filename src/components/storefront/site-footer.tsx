@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, MessageCircle, Phone, ShieldCheck } from "lucide-react";
 import { infoPages } from "@/lib/pages";
 import { useI18n } from "@/lib/i18n-context";
-import { useStoreSettings } from "@/lib/queries";
+import { deliveryWilayaCount, useStoreSettings } from "@/lib/queries";
 import { SocialLinks } from "./social-links";
 import { waLink } from "@/lib/whatsapp";
 
@@ -18,6 +18,7 @@ import { waLink } from "@/lib/whatsapp";
 export function SiteFooter() {
   const { t, locale } = useI18n();
   const { data: settings } = useStoreSettings();
+  const wilayaCount = deliveryWilayaCount(settings);
 
   // Owner text is shown in the buyer's language when a Latin version exists.
   // Arabic-only text is left out for French and English readers rather than
@@ -117,8 +118,13 @@ export function SiteFooter() {
       <div className="container-page flex flex-wrap items-center justify-between gap-3 border-t border-outline py-5 text-xs text-on-surface-muted">
         {/* Delivery is priced per wilaya (shown at checkout), so no single fee here. */}
         <p>
-          {t("checkout.codTitle")} · {t("home.trust.delivery.title")} ·{" "}
-          {t("home.trust.returns.title", { days: settings?.returns_days ?? 7 })}
+          {[
+            t("checkout.codTitle"),
+            wilayaCount === null ? null : t("trust2.wilayas", { count: wilayaCount }),
+            t("home.trust.returns.title", { days: settings?.returns_days ?? 7 }),
+          ]
+            .filter(Boolean)
+            .join(" · ")}
         </p>
       </div>
 
