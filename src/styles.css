@@ -710,7 +710,8 @@
 }
 .gallery-main {
   position: relative;
-  aspect-ratio: 4 / 5;
+  /* The shop's photos are 3:4 (900x1199); a taller frame crops the case. */
+  aspect-ratio: 3 / 4;
   border-radius: var(--r-lg);
   overflow: hidden;
   border: 1px solid var(--outline);
