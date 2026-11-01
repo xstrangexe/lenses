@@ -7,10 +7,12 @@ import { Field, Input } from "@/components/ui/form";
 import { useI18n } from "@/lib/i18n-context";
 import { formatDzd } from "@/lib/format";
 import { wilayaLabel } from "@/lib/wilayas";
+import { isReviewable } from "@/lib/order-review";
 import { setOrderStatus, type AdminOrder, type OrderStatus } from "@/lib/admin";
 import type { PhoneHistory } from "@/lib/admin-phones";
 import { BlockPhoneButton } from "./phone-guard";
 import { CarrierAction, PickupOffice } from "./carrier-action";
+import { ReviewInviteButton } from "./review-invite-button";
 
 /** Expanded order: lines, money, recipient, and the status transitions. */
 export function OrderDetail({
@@ -81,6 +83,7 @@ export function OrderDetail({
       )}
 
       <OrderActions order={order} />
+      {isReviewable(order.status) && <ReviewInviteButton order={order} />}
       <CarrierAction order={order} />
       <div className="flex flex-wrap gap-2">
         <Link

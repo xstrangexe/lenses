@@ -18,6 +18,8 @@ export type AdminReview = {
   is_approved: boolean;
   created_at: string;
   products: { name: string; slug: string } | null;
+  /** One row when the review was written through an order invite, none otherwise. */
+  review_orders: { order_id: string }[];
 };
 
 const PAGE_SIZE = 15;
@@ -28,7 +30,7 @@ async function fetchReviewsPage(approved: boolean, page: number) {
   const { data, error, count } = await getSupabase()
     .from("reviews")
     .select(
-      "id, product_id, customer_name, rating, comment, image_url, is_approved, created_at, products ( name, slug )",
+      "id, product_id, customer_name, rating, comment, image_url, is_approved, created_at, products ( name, slug ), review_orders ( order_id )",
       { count: "exact" },
     )
     .eq("is_approved", approved)

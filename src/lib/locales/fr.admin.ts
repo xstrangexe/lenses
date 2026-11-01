@@ -32,6 +32,12 @@ export const frAdmin = {
   "admin.reviews.approve": "Approuver",
   "admin.reviews.pending": "En attente",
   "admin.reviews.approved": "Publiés",
+  "admin.reviews.invite": "Envoyer le lien d'avis sur WhatsApp",
+  "admin.reviews.inviteCopy": "Copier le lien",
+  "admin.reviews.inviteCopied": "Copié",
+  "admin.reviews.inviteMessage":
+    "Bonjour {name}, merci pour votre confiance en SHOPORA. Si votre commande vous est bien arrivée, voulez-vous la noter et ajouter une photo ? Cela prend une minute : {link}",
+  "admin.reviews.fromOrder": "Commande réelle",
   "admin.reviews.empty": "Aucun avis en attente",
   "admin.reviews.add": "Ajouter un avis client",
   "admin.reviews.addHelp":

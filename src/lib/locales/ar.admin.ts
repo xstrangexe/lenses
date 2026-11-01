@@ -32,6 +32,12 @@ export const arAdmin = {
   "admin.reviews.approve": "موافقة",
   "admin.reviews.pending": "بانتظار الموافقة",
   "admin.reviews.approved": "منشورة",
+  "admin.reviews.invite": "ابعث رابط التقييم على واتساب",
+  "admin.reviews.inviteCopy": "نسخ الرابط",
+  "admin.reviews.inviteCopied": "تم النسخ",
+  "admin.reviews.inviteMessage":
+    "السلام عليكم {name}، شكراً على ثقتك في SHOPORA. إذا وصلتك الطلبية وعجبتك، ممكن تقيّمها وتزيد صورة؟ ياخذ دقيقة: {link}",
+  "admin.reviews.fromOrder": "من طلب حقيقي",
   "admin.reviews.empty": "لا توجد تقييمات بانتظار المراجعة",
   "admin.reviews.add": "إضافة تقييم زبون",
   "admin.reviews.addHelp":

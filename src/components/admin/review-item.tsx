@@ -32,11 +32,23 @@ export function ReviewItem({
         <span className="text-xs text-on-surface-muted">
           {formatRelative(review.created_at, locale)}
         </span>
+        {review.review_orders.length > 0 && <Badge>{t("admin.reviews.fromOrder")}</Badge>}
       </div>
 
       {review.products && <p className="text-xs text-on-surface-muted">{review.products.name}</p>}
 
       <p className="whitespace-pre-line text-sm text-on-surface-muted">{review.comment}</p>
+
+      {review.image_url && (
+        <a href={review.image_url} target="_blank" rel="noopener noreferrer" className="w-fit">
+          <img
+            src={review.image_url}
+            alt=""
+            loading="lazy"
+            className="size-24 rounded-[12px] object-cover"
+          />
+        </a>
+      )}
 
       <div className="flex flex-wrap gap-2">
         {review.is_approved ? (
