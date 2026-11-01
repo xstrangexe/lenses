@@ -25,7 +25,7 @@ import { StarRating } from "./star-rating";
  * only repeated itself on every card. The title gets two lines' height and the
  * colour line always takes its row, so prices line up across a row.
  */
-function ProductCard({ product }: { product: CatalogueProduct }) {
+function ProductCard({ product, cta }: { product: CatalogueProduct; cta: GridCta }) {
   const { t, locale } = useI18n();
 
   const image = productImage(product);
@@ -92,7 +92,9 @@ function ProductCard({ product }: { product: CatalogueProduct }) {
 
         <span className="pc-cta">
           <span className="btn btn-secondary btn-sm btn-block !min-h-10">
-            {soldOut ? t("store.outOfStock") : t("express.cta")}
+            {soldOut
+              ? t("store.outOfStock")
+              : t(cta === "view" ? "store.viewDetails" : "express.cta")}
           </span>
         </span>
       </div>
@@ -100,11 +102,20 @@ function ProductCard({ product }: { product: CatalogueProduct }) {
   );
 }
 
-export function ProductGrid({ products }: { products: CatalogueProduct[] }) {
+/** What a card's button says: "order now", or "details" where a page already has its own order form. */
+type GridCta = "order" | "view";
+
+export function ProductGrid({
+  products,
+  cta = "order",
+}: {
+  products: CatalogueProduct[];
+  cta?: GridCta;
+}) {
   return (
     <div className="product-grid">
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+        <ProductCard key={product.id} product={product} cta={cta} />
       ))}
     </div>
   );

@@ -33,15 +33,19 @@ export function ProductFaq() {
           </details>
         ))}
       </div>
-      <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold text-gold-ink">
+      <p className="flex flex-wrap gap-x-5 text-sm font-semibold text-gold-ink">
         <Link
           to="/pages/$slug"
           params={{ slug: "return-policy" }}
-          className="underline underline-offset-4"
+          className="inline-flex min-h-11 items-center underline underline-offset-4"
         >
           {t("pfaq.policy")}
         </Link>
-        <Link to="/pages/$slug" params={{ slug: "faq" }} className="underline underline-offset-4">
+        <Link
+          to="/pages/$slug"
+          params={{ slug: "faq" }}
+          className="inline-flex min-h-11 items-center underline underline-offset-4"
+        >
           {t("pfaq.all")}
         </Link>
       </p>

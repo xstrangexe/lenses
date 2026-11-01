@@ -1475,6 +1475,7 @@ button.gallery-main {
 }
 .xo-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
   padding-bottom: 12px;
@@ -1491,6 +1492,7 @@ button.gallery-main {
 .xo-item-name {
   display: -webkit-box;
   overflow: hidden;
+  overflow-wrap: anywhere;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   font-size: 14px;
@@ -1512,14 +1514,15 @@ button.gallery-main {
   display: inline-flex;
   flex: none;
   align-items: center;
-  height: 40px;
+  margin-inline-start: auto;
+  height: 44px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
 }
 .xo-qty button {
   display: grid;
   place-items: center;
-  width: 38px;
+  width: 44px;
   height: 100%;
   font-size: 18px;
   color: #e3c68f;

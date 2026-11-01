@@ -46,7 +46,9 @@ export function ExpressOrderSummary({
         <h3 className="xo-summary-title">{t("express.summary")}</h3>
         <div className="xo-item">
           {image && <img src={image} alt="" width={56} height={56} decoding="async" />}
-          <span className="min-w-0 flex-1">
+          {/* A 7.5rem floor: on a 320px phone the stepper drops under the name
+              instead of squeezing it until "BURGUNDY" is cut. */}
+          <span className="min-w-0 flex-[1_1_7.5rem]">
             {/* dir="auto": a Latin name inside the Arabic line kept jumping
                 around the "× 1" next to it. */}
             <span className="xo-item-name" dir="auto">

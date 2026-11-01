@@ -94,7 +94,14 @@ export function ProductGallery({
               aria-current={index === active}
               className={cn("gallery-thumb", index === active && "active")}
             >
-              <img src={isVideo(url) ? posterOf(url) : url} alt="" loading="lazy" />
+              {/* The first few thumbnails are on screen at once, so they load at once;
+                  only those past the strip's edge wait. */}
+              <img
+                src={isVideo(url) ? posterOf(url) : url}
+                alt=""
+                loading={index < 4 ? "eager" : "lazy"}
+                decoding="async"
+              />
               {isVideo(url) && (
                 <span className="gallery-play" aria-hidden="true">
                   <Play size={14} fill="currentColor" />

@@ -7,7 +7,9 @@ import { ProductGrid } from "./product-card";
  * More from the same category, or the newest products when the category has
  * nothing else, so a buyer who does not want this one has somewhere to go.
  * Reuses the catalogue's own query, so it shows what the category page would,
- * minus the product on screen.
+ * minus the product on screen. The cards say "details", not "order now": the
+ * page above already has the one order form, and a second "order now" per card
+ * pulled a buyer who had scrolled past it toward a different product.
  */
 export function RelatedProducts({ product }: { product: CatalogueProduct }) {
   const { t } = useI18n();
@@ -29,7 +31,7 @@ export function RelatedProducts({ product }: { product: CatalogueProduct }) {
       <h2 id="related-title" className="font-display text-xl font-semibold">
         {t("store.related")}
       </h2>
-      <ProductGrid products={others} />
+      <ProductGrid products={others} cta="view" />
     </section>
   );
 }
