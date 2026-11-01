@@ -4,11 +4,12 @@ import { MessageSquareQuote } from "lucide-react";
 import { getSupabase } from "@/lib/supabase/client";
 import { useI18n } from "@/lib/i18n-context";
 import { formatRelative, initials } from "@/lib/format";
-import { useReviews } from "@/lib/queries";
+import { useReviews, type PublicReview } from "@/lib/queries";
 import { StarRating, StarRatingInput } from "./star-rating";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Textarea } from "@/components/ui/form";
 import { EmptyState, LoadingState } from "@/components/ui/feedback";
+import { ShopReviews } from "./shop-reviews";
 
 /**
  * The reviews block of a product page. Real reviews get their title, list and
@@ -24,16 +25,21 @@ export function ReviewsSection({ productId }: { productId: string }) {
 
   if (isPending) return null;
   if (!reviews || reviews.length === 0) {
-    return writing ? (
-      <ReviewForm productId={productId} />
-    ) : (
-      <button
-        type="button"
-        onClick={() => setWriting(true)}
-        className="min-h-11 w-fit self-center text-sm font-medium text-on-surface-muted underline underline-offset-4"
-      >
-        {t("reviews.write")}
-      </button>
+    return (
+      <>
+        <ShopReviews />
+        {writing ? (
+          <ReviewForm productId={productId} />
+        ) : (
+          <button
+            type="button"
+            onClick={() => setWriting(true)}
+            className="min-h-11 w-fit self-center text-sm font-medium text-on-surface-muted underline underline-offset-4"
+          >
+            {t("reviews.write")}
+          </button>
+        )}
+      </>
     );
   }
 
@@ -51,7 +57,7 @@ export function ReviewsSection({ productId }: { productId: string }) {
 }
 
 function ReviewList({ productId }: { productId: string }) {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   const { data: reviews, isPending } = useReviews(productId);
 
   if (isPending) return <LoadingState />;
@@ -62,38 +68,44 @@ function ReviewList({ productId }: { productId: string }) {
   return (
     <ul className="flex flex-col gap-4">
       {reviews.map((review) => (
-        <li key={review.id} className="rounded-[16px] border border-outline bg-surface p-4">
-          <div className="flex items-start gap-3">
-            <span
-              aria-hidden="true"
-              className="grid size-9 shrink-0 place-items-center rounded-full bg-primary/12 text-xs font-semibold text-primary"
-            >
-              {initials(review.customer_name)}
-            </span>
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <p className="text-sm font-medium">{review.customer_name}</p>
-                <StarRating value={review.rating} />
-                <span className="text-xs text-on-surface-muted">
-                  {formatRelative(review.created_at, locale)}
-                </span>
-              </div>
-              <p className="mt-2 whitespace-pre-line text-sm text-on-surface-muted">
-                {review.comment}
-              </p>
-              {review.image_url && (
-                <img
-                  src={review.image_url}
-                  alt=""
-                  loading="lazy"
-                  className="mt-3 aspect-square w-40 rounded-[12px] object-cover"
-                />
-              )}
-            </div>
-          </div>
-        </li>
+        <ReviewItem key={review.id} review={review} />
       ))}
     </ul>
+  );
+}
+
+/** One approved review: initials, name, stars, date, comment and the buyer's photo if any. */
+export function ReviewItem({ review }: { review: PublicReview }) {
+  const { locale } = useI18n();
+  return (
+    <li className="rounded-[16px] border border-outline bg-surface p-4">
+      <div className="flex items-start gap-3">
+        <span
+          aria-hidden="true"
+          className="grid size-9 shrink-0 place-items-center rounded-full bg-primary/12 text-xs font-semibold text-primary"
+        >
+          {initials(review.customer_name)}
+        </span>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <p className="text-sm font-medium">{review.customer_name}</p>
+            <StarRating value={review.rating} />
+            <span className="text-xs text-on-surface-muted">
+              {formatRelative(review.created_at, locale)}
+            </span>
+          </div>
+          <p className="mt-2 whitespace-pre-line text-sm text-on-surface-muted">{review.comment}</p>
+          {review.image_url && (
+            <img
+              src={review.image_url}
+              alt=""
+              loading="lazy"
+              className="mt-3 aspect-square w-40 rounded-[12px] object-cover"
+            />
+          )}
+        </div>
+      </div>
+    </li>
   );
 }
 

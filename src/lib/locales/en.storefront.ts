@@ -184,6 +184,8 @@ export const enStorefront = {
   "reviews.thanks": "Thank you",
   "reviews.thanksBody": "Your review appears once the shop approves it.",
   "reviews.count": "{count} review(s)",
+  "reviews.shopTitle": "What our customers say",
+  "reviews.shopBody": "Reviews from customers who bought other SHOPORA products.",
   "reviews.awaitingModeration": "Awaiting approval",
   "home.hero.title": "The new collection, delivered to your door",
   "home.hero.body": "Order today and pay in cash when it arrives. No card, no account.",
