@@ -59,11 +59,18 @@ export function productsForModel(
 
 /** "11 Pro Max → 17 Pro Max" for a product, or null when it has no phone models. */
 export function modelRange(product: CatalogueProduct): string | null {
+  const span = modelSpan(product);
+  if (!span) return null;
+  const first = span.from.replace("iPhone ", "");
+  const last = span.to.replace("iPhone ", "");
+  return first === last ? first : `${first} → ${last}`;
+}
+
+/** The oldest and newest in-stock iPhone a product fits, or null when it has none. */
+export function modelSpan(product: CatalogueProduct): { from: string; to: string } | null {
   const models = availableModels([product]);
   if (models.length === 0) return null;
-  const first = modelLabel(models[0]).replace("iPhone ", "");
-  const last = modelLabel(models[models.length - 1]).replace("iPhone ", "");
-  return first === last ? first : `${first} → ${last}`;
+  return { from: modelLabel(models[0]), to: modelLabel(models[models.length - 1]) };
 }
 
 export type ModelGeneration<T extends { name: string }> = { number: number; models: T[] };

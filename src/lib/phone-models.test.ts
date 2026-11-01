@@ -5,6 +5,7 @@ import {
   modelLabel,
   modelGenerations,
   modelRange,
+  modelSpan,
   parseModel,
   productsForModel,
 } from "./phone-models";
@@ -71,6 +72,12 @@ describe("model finder", () => {
   it("describes a product's model range", () => {
     expect(modelRange(snake)).toBe("13 Pro Max → 15 Pro Max");
     expect(modelRange(box)).toBeNull();
+  });
+
+  it("names the oldest and newest in-stock iPhone for the fit line", () => {
+    expect(modelSpan(snake)).toEqual({ from: "iPhone 13 Pro Max", to: "iPhone 15 Pro Max" });
+    expect(modelSpan(product("one", [["14", 2]]))).toEqual({ from: "iPhone 14", to: "iPhone 14" });
+    expect(modelSpan(box)).toBeNull();
   });
 });
 

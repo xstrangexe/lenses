@@ -16,7 +16,8 @@ import { ExpressOrderForm, ORDER_FORM_ID } from "./express-order-form";
 import { ProductShowcase } from "./product-showcase";
 import { StickyOrderBar } from "./sticky-order-bar";
 import { localized } from "@/lib/i18n";
-import { modelGenerations } from "@/lib/phone-models";
+import { modelGenerations, modelSpan } from "@/lib/phone-models";
+import { Smartphone } from "lucide-react";
 import { ColourPicker, SizePicker } from "./variant-picker";
 import { ModelPicker } from "./model-picker";
 
@@ -85,6 +86,7 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-2">
           <h1 className="font-display text-2xl font-semibold text-balance sm:text-3xl">{name}</h1>
+          <FitsLine product={product} />
           {reviews && reviews.length > 0 && (
             <span className="flex items-center gap-2">
               <StarRating value={rating ?? 0} />
@@ -151,6 +153,27 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
         )}
       </div>
     </div>
+  );
+}
+
+/**
+ * Which iPhones the case fits, straight under the name. A name such as "STYLE
+ * 18 PRO MAX" describes the look, so a buyer with an iPhone 13 would otherwise
+ * think it is not for them. Built from the in-stock models, so it stays true.
+ */
+function FitsLine({ product }: { product: CatalogueProduct }) {
+  const { t } = useI18n();
+  const span = modelSpan(product);
+  if (!span) return null;
+  // Non-breaking spaces keep "iPhone 17 Pro Max" on one line on narrow phones.
+  const keep = (label: string) => label.replace(/ /g, " ");
+  return (
+    <p className="flex items-center gap-1.5 text-sm font-medium text-on-surface-muted">
+      <Smartphone size={15} className="shrink-0 text-gold-ink" aria-hidden="true" />
+      {span.from === span.to
+        ? t("store.fitsOne", { model: keep(span.from) })
+        : t("store.fits", { from: keep(span.from), to: keep(span.to) })}
+    </p>
   );
 }
 

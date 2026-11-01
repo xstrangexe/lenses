@@ -90,6 +90,8 @@ export const frStorefront = {
   "store.waOrderIntro": "Bonjour, je souhaite commander :",
   "store.waModelAsk": "Bonjour, mon modèle de téléphone n'est pas dans la liste pour cette coque :",
   "store.modelHelp": "Votre modèle n'est pas là ? Écrivez-nous sur WhatsApp",
+  "store.fits": "Pour {from} à {to}",
+  "store.fitsOne": "Pour {model}",
   "store.readMore": "Voir plus",
   "store.readLess": "Voir moins",
   "store.showcase": "Voyez la coque de près",

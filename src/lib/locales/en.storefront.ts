@@ -89,6 +89,8 @@ export const enStorefront = {
   "store.waOrderIntro": "Hello, I would like to order:",
   "store.waModelAsk": "Hello, my phone model is not listed for this case:",
   "store.modelHelp": "Your phone isn't listed? Message us on WhatsApp",
+  "store.fits": "Fits {from} to {to}",
+  "store.fitsOne": "Fits {model}",
   "store.readMore": "Read more",
   "store.readLess": "Show less",
   "store.showcase": "See it up close",
