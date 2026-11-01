@@ -3,9 +3,24 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const rpc = vi.hoisted(() => vi.fn());
 vi.mock("./supabase/client", () => ({ getSupabase: () => ({ rpc }) }));
 
-import { fetchReviewContext, reviewErrorKey, reviewLink, submitOrderReview } from "./order-review";
+import {
+  fetchReviewContext,
+  isReviewable,
+  reviewErrorKey,
+  reviewLink,
+  submitOrderReview,
+} from "./order-review";
 
 const TOKEN = "0f8fad5b-d9cb-469f-a165-70867728950e";
+
+describe("isReviewable", () => {
+  it("is true only for a delivered order", () => {
+    expect(isReviewable("delivered")).toBe(true);
+    for (const status of ["pending", "confirmed", "shipped", "refused", "cancelled", "returned"]) {
+      expect(isReviewable(status)).toBe(false);
+    }
+  });
+});
 
 describe("reviewLink", () => {
   it("is the review page on the shop's address", () => {

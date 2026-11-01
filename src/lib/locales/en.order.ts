@@ -76,6 +76,7 @@ export const enOrder: Record<keyof typeof arOrder, string> = {
   "placed.keep": "Keep this page to track your order.",
   "placed.continue": "Continue shopping",
   "placed.track": "Order details and tracking",
+  "order.reviewLink": "Review your order",
   "placed.waText": "Hello, I have order number {number}",
   "placed.whatsapp": "Want to change something? Message us on WhatsApp",
   "placed.cash": "To pay on delivery",

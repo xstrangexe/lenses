@@ -76,6 +76,7 @@ export const frOrder: Record<keyof typeof arOrder, string> = {
   "placed.keep": "Gardez cette page pour suivre votre commande.",
   "placed.continue": "Continuer mes achats",
   "placed.track": "Détails et suivi de la commande",
+  "order.reviewLink": "Évaluer votre commande",
   "placed.waText": "Bonjour, j'ai une commande n° {number}",
   "placed.whatsapp": "Un changement ? Écrivez-nous sur WhatsApp",
   "placed.cash": "À payer à la réception",

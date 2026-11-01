@@ -78,6 +78,7 @@ export const arOrder = {
   "placed.keep": "احتفظ بهاذ الصفحة باش تتبع طلبك.",
   "placed.continue": "كمّل التسوق",
   "placed.track": "تفاصيل الطلب والتتبع",
+  "order.reviewLink": "قيّم طلبيتك",
   "placed.waText": "مرحبا، عندي طلب رقم {number}",
   "placed.whatsapp": "تحب تبدّل حاجة؟ راسلنا على واتساب",
   "placed.cash": "المبلغ الذي تدفعه عند الاستلام",

@@ -9,6 +9,7 @@ import { translate } from "@/lib/i18n";
 import { useI18n } from "@/lib/i18n-context";
 import { formatDateTime, formatDzd } from "@/lib/format";
 import { ORDER_FLOW, isTerminal, trackOrder, type TrackedOrder } from "@/lib/order";
+import { isReviewable } from "@/lib/order-review";
 import { wilayaLabel } from "@/lib/wilayas";
 import { cn } from "@/lib/utils";
 import { OrderThankYou } from "@/components/storefront/order-thank-you";
@@ -79,6 +80,8 @@ function OrderPage() {
             )}
 
             <Timeline status={data.status} />
+
+            <ReviewLink token={data.token} status={data.status} />
 
             <section className="flex flex-col gap-3 rounded-[16px] border border-outline bg-surface p-5">
               <h2 className="flex items-center gap-2 font-medium">
@@ -215,6 +218,21 @@ function Timeline({ status }: { status: string }) {
         );
       })}
     </ol>
+  );
+}
+
+/** Once the parcel is delivered, a quiet way to the review page. */
+function ReviewLink({ token, status }: { token: string; status: string }) {
+  const { t } = useI18n();
+  if (!isReviewable(status)) return null;
+  return (
+    <Link
+      to="/review/$token"
+      params={{ token }}
+      className="min-h-11 text-center text-sm font-semibold text-gold-ink underline underline-offset-4"
+    >
+      {t("order.reviewLink")}
+    </Link>
   );
 }
 

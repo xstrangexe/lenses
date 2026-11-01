@@ -62,6 +62,11 @@ export function reviewErrorKey(code: ReviewRefusal | "failed"): TranslationKey {
   return `review.err.${code}`;
 }
 
+/** Only a delivered order can be reviewed; the database enforces the same rule. */
+export function isReviewable(status: string): boolean {
+  return status === "delivered";
+}
+
 /** The link the owner sends a delivered buyer. */
 export function reviewLink(token: string): string {
   return absoluteUrl(`/review/${token}`);
