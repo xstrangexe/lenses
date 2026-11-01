@@ -62,6 +62,7 @@ export function WilayaCommuneFields({
             value={commune}
             onChange={(e) => onCommune(e.target.value)}
             disabled={!wilaya}
+            placeholder={t(wilaya ? "express.communeType" : "express.communeFirst")}
             required
             maxLength={80}
           />

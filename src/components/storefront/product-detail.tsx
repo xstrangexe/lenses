@@ -1,8 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { trackViewContent } from "@/lib/pixels";
 import { useI18n } from "@/lib/i18n-context";
-import { averageRating, sortVariants, useReviews, type CatalogueProduct } from "@/lib/queries";
+import {
+  averageRating,
+  sortVariants,
+  useReviews,
+  type CatalogueProduct,
+  type PublicReview,
+} from "@/lib/queries";
 import { useVariantChoice } from "./use-variant-choice";
+import { useMissingVariant } from "./use-missing-variant";
 import { StarRating } from "./star-rating";
 import { ProductGallery } from "./product-gallery";
 import {
@@ -59,17 +66,18 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
 
   // A long iPhone list is grouped by number; a short or non-iPhone list stays flat.
   const generations = sizes.length > 6 ? modelGenerations(sizes) : null;
-  const pickersRef = useRef<HTMLDivElement>(null);
   const scrollToForm = () =>
     document.getElementById(ORDER_FORM_ID)?.scrollIntoView({ behavior: "smooth", block: "start" });
-  const showPickers = () =>
-    pickersRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  const { pickersRef, showPickers, showMissing, missingKey } = useMissingVariant({
+    hasModels: sizes.length > 0,
+    modelChosen: choice.size !== null,
+    chosen: selected !== null,
+  });
   const fromPrice = Math.min(...variants.map((v) => v.price));
   const name = localized(locale, product.name, product.name_fr);
   const waHref = useWhatsappHref(t("store.waOrderIntro"), name, selected);
   const label = selected ? variantLabel(selected, locale) : null;
 
-  const rating = reviews ? averageRating(reviews) : null;
   const description = product.description
     ? localized(locale, product.description, product.description_fr)
     : product.description_fr;
@@ -87,14 +95,7 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
         <div className="flex flex-col gap-2">
           <h1 className="font-display text-2xl font-semibold text-balance sm:text-3xl">{name}</h1>
           <FitsLine product={product} />
-          {reviews && reviews.length > 0 && (
-            <span className="flex items-center gap-2">
-              <StarRating value={rating ?? 0} />
-              <span className="text-sm text-on-surface-muted">
-                {t("reviews.count", { count: reviews.length })}
-              </span>
-            </span>
-          )}
+          <RatingLine reviews={reviews} />
         </div>
 
         <StockLine
@@ -106,7 +107,12 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
 
         <div ref={pickersRef} className="flex flex-col gap-5">
           {generations ? (
-            <ModelPicker generations={generations} selected={choice.size} onSelect={pickSize} />
+            <ModelPicker
+              generations={generations}
+              selected={choice.size}
+              invalid={showMissing && choice.size === null}
+              onSelect={pickSize}
+            />
           ) : (
             <SizePicker sizes={sizes} selected={choice.size} onSelect={pickSize} />
           )}
@@ -119,6 +125,11 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
               onSelect={pickColour}
               step={modelFirst ? "2" : undefined}
             />
+          )}
+          {showMissing && (
+            <p role="alert" className="text-sm font-medium text-error">
+              {t(missingKey)}
+            </p>
           )}
           {unavailable && (
             <p role="status" className="combo-off">
@@ -153,6 +164,20 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
         )}
       </div>
     </div>
+  );
+}
+
+/** Stars and the review count, only once the product has reviews. */
+function RatingLine({ reviews }: { reviews: PublicReview[] | undefined }) {
+  const { t } = useI18n();
+  if (!reviews || reviews.length === 0) return null;
+  return (
+    <span className="flex items-center gap-2">
+      <StarRating value={averageRating(reviews) ?? 0} />
+      <span className="text-sm text-on-surface-muted">
+        {t("reviews.count", { count: reviews.length })}
+      </span>
+    </span>
   );
 }
 

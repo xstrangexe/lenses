@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n-context";
+import type { TranslationKey } from "@/lib/i18n";
 import {
   primaryImage,
   productImage,
@@ -46,7 +47,8 @@ export function useExpressOrder({
   product: CatalogueProduct;
   name: string;
   selected: CatalogueVariant | null;
-  onMissingVariant: () => void;
+  /** Takes the buyer to the pickers and says what is missing: the model or the colour. */
+  onMissingVariant: () => TranslationKey;
 }) {
   const { t } = useI18n();
   const navigate = useNavigate();
@@ -56,6 +58,8 @@ export function useExpressOrder({
   const form = useOrderFields();
   const { customerName, phone, wilaya, commune, address, method, office, quantity } = form.fields;
   const [error, setError] = useState<string | null>(null);
+  // What is missing from the pickers; shown only while nothing is chosen.
+  const [missing, setMissing] = useState<TranslationKey | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const busy = useRef(false);
   const started = useRef(false);
@@ -83,6 +87,7 @@ export function useExpressOrder({
     event.preventDefault();
     if (busy.current) return;
     setError(null);
+    setMissing(null);
     const element = event.currentTarget;
     const found = orderFieldErrors({
       name: customerName,
@@ -96,8 +101,7 @@ export function useExpressOrder({
     // The model is picked above the form, so a missing one takes the buyer back
     // up there; the field messages are waiting when they come back down.
     if (!selected) {
-      setError(t("express.pickVariant"));
-      onMissingVariant();
+      setMissing(onMissingVariant());
       return;
     }
     if (ORDER_FIELDS.some((field) => found[field])) {
@@ -143,7 +147,7 @@ export function useExpressOrder({
     errors: form.errors,
     clearError: form.clearError,
     showError: form.showError,
-    error,
+    error: !selected && missing ? t(missing) : error,
     submitting,
     communes,
     unitPrice,

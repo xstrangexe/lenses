@@ -1074,7 +1074,8 @@ button.gallery-main {
   max-width: 11rem;
 }
 .form-input[aria-invalid="true"],
-.form-textarea[aria-invalid="true"] {
+.form-textarea[aria-invalid="true"],
+.form-select[aria-invalid="true"] {
   border-color: var(--error);
 }
 .form-select {

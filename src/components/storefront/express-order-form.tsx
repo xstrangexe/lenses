@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Banknote, CheckCircle2, PhoneCall, Plus, Truck } from "lucide-react";
 import { Field, Input } from "@/components/ui/form";
 import { useI18n } from "@/lib/i18n-context";
+import type { TranslationKey } from "@/lib/i18n";
 import {
   deliveryWilayaCount,
   primaryImage,
@@ -44,8 +45,8 @@ export function ExpressOrderForm({
   name: string;
   selected: CatalogueVariant | null;
   variantLabel: string | null;
-  /** Called when the buyer submits before picking a model or colour. */
-  onMissingVariant: () => void;
+  /** Called when the buyer submits before picking a model or colour; returns what to tell them. */
+  onMissingVariant: () => TranslationKey;
 }) {
   const { t } = useI18n();
   const order = useExpressOrder({ product, name, selected, onMissingVariant });
@@ -192,7 +193,7 @@ function PhoneField({
   const { t } = useI18n();
   const ok = isValidDzPhone(value);
   return (
-    <Field label={t("express.phone")} error={error} required>
+    <Field label={t("express.phone")} hint={t("express.phoneHint")} error={error} required>
       <span className="xo-phone">
         <Input
           value={value}
