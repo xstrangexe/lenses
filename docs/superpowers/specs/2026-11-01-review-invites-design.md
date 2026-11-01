@@ -91,7 +91,7 @@ by the owner before they show.
 ### Admin
 
 - Order detail, when status is `delivered`: a button that opens WhatsApp to the buyer's number with a
-  Darija message and `https://shoporadz.top/review/<token>` (site URL from `VITE_SITE_URL`), and a
+  Darija message and `https://shoporadz.top/review/<token>` (the shop's fixed address from `src/lib/site-url.ts`), and a
   copy-link button. Nothing is sent until the owner presses send in WhatsApp.
 - Review moderation: show the photo (it is not shown today) and a "from a real order" mark read from
   `review_orders`. Approve and delete work as now.
