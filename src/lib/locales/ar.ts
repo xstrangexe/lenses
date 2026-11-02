@@ -2,6 +2,7 @@ import { arAdmin } from "./ar.admin";
 import { arTools } from "./ar.tools";
 import { arStorefront } from "./ar.storefront";
 import { arOrder } from "./ar.order";
+import { arTrack } from "./ar.track";
 
 /**
  * Arabic, the reference locale.
@@ -12,4 +13,4 @@ import { arOrder } from "./ar.order";
  * Split into storefront and admin halves because a single file passed the
  * project's 250-line limit. The seam is the audience, which is the real one.
  */
-export const ar = { ...arStorefront, ...arOrder, ...arAdmin, ...arTools };
+export const ar = { ...arStorefront, ...arOrder, ...arTrack, ...arAdmin, ...arTools };

@@ -810,6 +810,7 @@ export type Database = {
         Args: { p_customer: Json; p_items: Json };
         Returns: string;
       };
+      lookup_orders_by_phone: { Args: { p_phone: string }; Returns: Json };
       recalculate_for_order: {
         Args: { p_order_id: string };
         Returns: undefined;
