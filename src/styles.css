@@ -855,6 +855,68 @@ button.gallery-main {
   background: transparent;
   color: var(--error, #b42318);
 }
+/* "Your phone is not listed? Message us": a pill with the WhatsApp mark, so a
+   buyer whose model is missing sees a reachable person, not a footnote. */
+.wa-help {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 48px;
+  padding: 6px 18px 6px 6px;
+  border-radius: var(--r-full);
+  border: 1px solid color-mix(in srgb, #25d366 38%, var(--outline));
+  background: color-mix(in srgb, #25d366 9%, var(--surface));
+  color: var(--on-surface);
+  font: 600 14px/1.35 var(--font-body);
+  text-decoration: none;
+  transition:
+    transform var(--dur-fast),
+    border-color var(--dur-fast),
+    box-shadow var(--dur-fast);
+}
+.wa-help:hover {
+  transform: translateY(-1px);
+  border-color: #25d366;
+  box-shadow: 0 6px 16px -8px color-mix(in srgb, #25d366 70%, transparent);
+}
+.wa-help:active {
+  transform: scale(0.98);
+}
+.wa-help-badge {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+}
+.wa-help-text {
+  text-wrap: balance;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wa-help-badge::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid #25d366;
+    opacity: 0;
+    animation: wa-ping 2.6s var(--ease-out-soft) infinite;
+  }
+  @keyframes wa-ping {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    70%,
+    100% {
+      transform: scale(1.55);
+      opacity: 0;
+    }
+  }
+}
 .gallery-thumb {
   aspect-ratio: 4 / 5;
   border-radius: var(--r-sm);

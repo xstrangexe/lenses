@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Check, MessageCircle } from "lucide-react";
+import { WhatsappIcon } from "./whatsapp-icon";
 import { useI18n } from "@/lib/i18n-context";
 import { formatDzd } from "@/lib/format";
 import { useStoreSettings, type CatalogueVariant } from "@/lib/queries";
@@ -152,14 +153,11 @@ export function ModelHelp({ name }: { name: string }) {
   if (!waHref) return null;
 
   return (
-    <a
-      href={waHref}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="-mt-2 inline-flex min-h-11 w-fit items-center gap-1.5 text-sm font-medium text-gold-ink"
-    >
-      <MessageCircle size={15} aria-hidden="true" />
-      {t("store.modelHelp")}
+    <a href={waHref} target="_blank" rel="noopener noreferrer" className="wa-help">
+      <span className="wa-help-badge">
+        <WhatsappIcon size={34} />
+      </span>
+      <span className="wa-help-text">{t("store.modelHelp")}</span>
     </a>
   );
 }
