@@ -23,7 +23,7 @@ import { ExpressOrderForm, ORDER_FORM_ID } from "./express-order-form";
 import { ProductShowcase } from "./product-showcase";
 import { StickyOrderBar } from "./sticky-order-bar";
 import { localized } from "@/lib/i18n";
-import { modelGenerations, modelSpan } from "@/lib/phone-models";
+import { modelOptions, modelSpan } from "@/lib/phone-models";
 import { Smartphone } from "lucide-react";
 import { ColourPicker, SizePicker } from "./variant-picker";
 import { ModelPicker } from "./model-picker";
@@ -64,8 +64,7 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
     pickSize,
   } = useVariantChoice(variants, product.slug);
 
-  // A long iPhone list is grouped by number; a short or non-iPhone list stays flat.
-  const generations = sizes.length > 6 ? modelGenerations(sizes) : null;
+  const { shownSizes, generations } = modelOptions(sizes);
   const scrollToForm = () =>
     document.getElementById(ORDER_FORM_ID)?.scrollIntoView({ behavior: "smooth", block: "start" });
   const { pickersRef, showPickers, showMissing, missingKey } = useMissingVariant({
@@ -107,7 +106,7 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
           {generations ? (
             <ModelPicker generations={generations} selected={choice.size} onSelect={pickSize} />
           ) : (
-            <SizePicker sizes={sizes} selected={choice.size} onSelect={pickSize} />
+            <SizePicker sizes={shownSizes} selected={choice.size} onSelect={pickSize} />
           )}
           {modelFirst && choice.size === null ? (
             <p className="text-sm text-on-surface-muted">{t("store.pickModelFirst")}</p>
@@ -146,7 +145,7 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
               variantLabel={label === "—" ? null : label}
               model={
                 sizes.length > 0
-                  ? { sizes, generations, selected: choice.size, onSelect: pickSize }
+                  ? { sizes: shownSizes, generations, selected: choice.size, onSelect: pickSize }
                   : null
               }
               onMissingVariant={showPickers}

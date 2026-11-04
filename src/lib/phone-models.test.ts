@@ -3,6 +3,7 @@ import type { CatalogueProduct } from "./queries";
 import {
   availableModels,
   modelLabel,
+  modelOptions,
   modelGenerations,
   modelRange,
   modelSpan,
@@ -99,5 +100,35 @@ describe("modelGenerations", () => {
 
   it("gives up on a list with a name it cannot read", () => {
     expect(modelGenerations([size("15 PRO"), size("Galaxy S24")])).toBeNull();
+  });
+});
+
+describe("modelOptions", () => {
+  const live = (name: string, inStock = true) => ({ name, inStock });
+
+  it("lists only the in-stock iPhones, oldest first, as chips", () => {
+    const { shownSizes, generations } = modelOptions([
+      live("14 PRO MAX", false),
+      live("iPhone 14"),
+      live("iPhone 11 Pro Max"),
+      live("iPhone 11"),
+    ]);
+    expect(shownSizes.map((s) => s.name)).toEqual(["iPhone 11", "iPhone 11 Pro Max", "iPhone 14"]);
+    expect(generations).toBeNull();
+  });
+
+  it("falls back to the grouped dropdown past eight models in stock", () => {
+    const many = ["11", "12", "13", "14", "15", "16", "17"].flatMap((n) => [
+      live(n),
+      live(`${n} PRO`),
+    ]);
+    const { shownSizes, generations } = modelOptions(many);
+    expect(shownSizes).toHaveLength(14);
+    expect(generations?.[0].number).toBe(17);
+  });
+
+  it("leaves a non-iPhone size list alone, sold-out sizes included", () => {
+    const sizes = [live("S"), live("M", false)];
+    expect(modelOptions(sizes)).toEqual({ shownSizes: sizes, generations: null });
   });
 });

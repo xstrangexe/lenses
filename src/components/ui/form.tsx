@@ -22,7 +22,7 @@ type FieldContextValue = {
 
 const FieldContext = createContext<FieldContextValue | null>(null);
 
-function useFieldWiring(fallbackId: string) {
+export function useFieldWiring(fallbackId: string) {
   const ctx = useContext(FieldContext);
   if (!ctx) {
     return { id: fallbackId, "aria-invalid": undefined, "aria-describedby": undefined };

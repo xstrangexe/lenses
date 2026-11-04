@@ -1,5 +1,8 @@
+import { useId } from "react";
+import { useFieldWiring } from "@/components/ui/form";
 import { useI18n } from "@/lib/i18n-context";
 import { colourLabel } from "@/lib/colour-names";
+import { modelLabel, parseModel } from "@/lib/phone-models";
 import type { ColourOption, SizeOption } from "@/lib/variant-options";
 import { cn } from "@/lib/utils";
 
@@ -62,24 +65,38 @@ export function ColourPicker({
   );
 }
 
+/** "15 PRO MAX" → "iPhone 15 Pro Max"; any other size name is shown as stored. */
+function chipLabel(name: string): string {
+  const model = parseModel(name);
+  return model ? modelLabel(model) : name;
+}
+
 export function SizePicker({
   sizes,
   selected,
   onSelect,
+  hideLegend = false,
 }: {
   sizes: SizeOption[];
   selected: string | null;
   onSelect: (name: string) => void;
+  /** The order form labels the field itself, so it asks for no second heading. */
+  hideLegend?: boolean;
 }) {
   const { t } = useI18n();
+  const wiring = useFieldWiring(useId());
   if (sizes.length === 0) return null;
 
+  // Inside an order-form Field the group carries the Field's id and invalid state,
+  // so a missing model is announced and the form can scroll to it and focus it.
+  const inField = hideLegend ? { ...wiring, tabIndex: -1 } : {};
+
   return (
-    <fieldset className="flex flex-col gap-2.5">
-      <legend className="mb-1 text-sm">
+    <fieldset className="flex flex-col gap-2.5 outline-none" {...inField}>
+      <legend className={hideLegend ? "sr-only" : "mb-1 text-sm"}>
         <span className="text-on-surface-muted">{t("store.stepModel")}: </span>
         <span className="font-semibold" dir="auto">
-          {selected}
+          {selected ? chipLabel(selected) : null}
         </span>
       </legend>
       <div className="flex flex-wrap gap-2">
@@ -95,7 +112,7 @@ export function SizePicker({
             dir="auto"
             className={cn("size-chip", size.name === selected && "active")}
           >
-            {size.name}
+            {chipLabel(size.name)}
           </button>
         ))}
       </div>

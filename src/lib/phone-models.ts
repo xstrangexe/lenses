@@ -73,6 +73,45 @@ export function modelSpan(product: CatalogueProduct): { from: string; to: string
   return { from: modelLabel(models[0]), to: modelLabel(models[models.length - 1]) };
 }
 
+/** Up to this many in-stock models are shown as chips; more fall back to the dropdown. */
+const MODEL_CHIP_MAX = 8;
+
+/**
+ * The models a buyer can actually order, oldest to newest, base → Pro Max, for a
+ * list made only of iPhone names. Null when any name is not an iPhone model, so
+ * a size list such as S / M / L keeps its own picker with sold-out sizes shown.
+ */
+function liveModelSizes<T extends { name: string; inStock: boolean }>(sizes: T[]): T[] | null {
+  const parsed: { model: PhoneModel; size: T }[] = [];
+  for (const size of sizes) {
+    const model = parseModel(size.name);
+    if (!model) return null;
+    if (size.inStock) parsed.push({ model, size });
+  }
+  return parsed
+    .sort(
+      (a, b) =>
+        a.model.number - b.model.number ||
+        TYPE_ORDER.indexOf(a.model.type) - TYPE_ORDER.indexOf(b.model.type),
+    )
+    .map((entry) => entry.size);
+}
+
+/**
+ * How a product's models are offered. iPhone models: the ones in stock as chips
+ * (a sold-out model is not an option, so it is not listed), or, past
+ * MODEL_CHIP_MAX, a dropdown grouped by iPhone number. Other size lists stay
+ * flat with sold-out sizes crossed out.
+ */
+export function modelOptions<T extends { name: string; inStock: boolean }>(sizes: T[]) {
+  const live = liveModelSizes(sizes);
+  const chips = live !== null && live.length <= MODEL_CHIP_MAX;
+  return {
+    shownSizes: chips ? live : sizes,
+    generations: live !== null && !chips ? modelGenerations(sizes) : null,
+  };
+}
+
 export type ModelGeneration<T extends { name: string }> = { number: number; models: T[] };
 
 /**
