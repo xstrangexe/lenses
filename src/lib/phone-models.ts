@@ -22,6 +22,33 @@ export function parseModel(size: string | null | undefined): PhoneModel | null {
   return { number: Number(m[1]), type: (m[2] as PhoneType | undefined) ?? "base" };
 }
 
+/**
+ * The model as it travels in a link: "iphone-14-pro-max", "iphone-11". The word
+ * keeps a bare "14" from being read as a number by the router, which would
+ * quote it in the address bar.
+ */
+export function modelKey(model: PhoneModel): string {
+  const type = model.type === "base" ? "" : `-${model.type.replace(" ", "-")}`;
+  return `iphone-${model.number}${type}`;
+}
+
+/** The model a link key names ("iphone-14-pro", "14-pro" or "14"), or null. */
+export function modelFromKey(key: string | undefined): PhoneModel | null {
+  if (!key) return null;
+  const m = key.match(/^(?:iphone-)?(\d{1,2})(?:-(pro-max|pro|plus))?$/);
+  if (!m) return null;
+  return {
+    number: Number(m[1]),
+    type: (m[2]?.replace("-", " ") as PhoneType | undefined) ?? "base",
+  };
+}
+
+/** The `model` search parameter of a link, as text (the router hands `?model=14` over as a number). */
+export function modelSearch(search: Record<string, unknown>): { model?: string } {
+  const raw = search.model;
+  return typeof raw === "string" || typeof raw === "number" ? { model: String(raw) } : {};
+}
+
 /** "15 Pro Max", "13" — how the finder labels a model. */
 export function modelLabel(model: PhoneModel): string {
   const type = { base: "", plus: " Plus", pro: " Pro", "pro max": " Pro Max" }[model.type];
@@ -41,6 +68,33 @@ export function availableModels(products: CatalogueProduct[]): PhoneModel[] {
   return [...seen.values()].sort(
     (a, b) => a.number - b.number || TYPE_ORDER.indexOf(a.type) - TYPE_ORDER.indexOf(b.type),
   );
+}
+
+/** How many pieces of cases that fit exactly this model are in stock, over all products. */
+export function modelStock(products: CatalogueProduct[], model: PhoneModel): number {
+  let pieces = 0;
+  for (const product of products) {
+    for (const variant of product.product_variants) {
+      const m = parseModel(variant.size);
+      if (m && m.number === model.number && m.type === model.type)
+        pieces += Math.max(variant.stock, 0);
+    }
+  }
+  return pieces;
+}
+
+/** The stored size name in `sizes` that a link key names, when it is in stock. */
+export function sizeForModelKey<T extends { name: string; inStock: boolean }>(
+  sizes: T[],
+  key: string | undefined,
+): string | null {
+  const wanted = modelFromKey(key);
+  if (!wanted) return null;
+  const found = sizes.find((size) => {
+    const m = parseModel(size.name);
+    return size.inStock && m !== null && m.number === wanted.number && m.type === wanted.type;
+  });
+  return found?.name ?? null;
 }
 
 /** Products with an in-stock variant for exactly this model. */

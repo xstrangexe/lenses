@@ -17,8 +17,10 @@ import { absoluteUrl } from "@/lib/site-url";
 import { sizeGuidesQuery } from "@/lib/size-guides";
 import { RelatedProducts } from "@/components/storefront/related-products";
 import { localized } from "@/lib/i18n";
+import { modelSearch } from "@/lib/phone-models";
 
 export const Route = createFileRoute("/product/$slug")({
+  validateSearch: modelSearch,
   loader: async ({ context, params }) => {
     const product = await context.queryClient
       .ensureQueryData(productQuery(params.slug))
@@ -76,6 +78,7 @@ export const Route = createFileRoute("/product/$slug")({
 
 function ProductPage() {
   const { product } = Route.useLoaderData();
+  const { model } = Route.useSearch();
   const { data: live, isError, error, refetch } = useProduct(product.slug);
 
   const current = live ?? product;
@@ -86,7 +89,7 @@ function ProductPage() {
         {isError ? (
           <ErrorState message={error.message} onRetry={() => void refetch()} />
         ) : (
-          <ProductDetail product={current} />
+          <ProductDetail product={current} initialModel={model} />
         )}
 
         <ProductFaq />

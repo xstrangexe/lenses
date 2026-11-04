@@ -37,7 +37,13 @@ import { ModelPicker } from "./model-picker";
  * three promises are in the form's own header, not above the pickers. Actions live in `product-purchase.tsx` and `express-order-form.tsx`;
  * this file holds the state they share.
  */
-export function ProductDetail({ product }: { product: CatalogueProduct }) {
+type ProductDetailProps = {
+  product: CatalogueProduct;
+  /** A model named in the link, such as "14-pro-max", to open the page on. */
+  initialModel?: string;
+};
+
+export function ProductDetail({ product, initialModel }: ProductDetailProps) {
   const { t, locale } = useI18n();
   const { data: reviews } = useReviews(product.id);
 
@@ -62,7 +68,7 @@ export function ProductDetail({ product }: { product: CatalogueProduct }) {
     setActiveImage,
     pickColour,
     pickSize,
-  } = useVariantChoice(variants, product.slug);
+  } = useVariantChoice(variants, product.slug, initialModel);
 
   const { shownSizes, generations } = modelOptions(sizes);
   const scrollToForm = () =>

@@ -11,6 +11,7 @@ import {
   sizeAfterColourChange,
 } from "@/lib/variant-options";
 import { productVideos } from "@/lib/product-videos";
+import { sizeForModelKey } from "@/lib/phone-models";
 
 /**
  * The buyer's model and colour on a product page, and what follows from them:
@@ -19,15 +20,22 @@ import { productVideos } from "@/lib/product-videos";
  * Split out of `product-detail.tsx` at the 120-line function limit; the page
  * keeps the layout, this keeps the choice.
  */
-export function useVariantChoice(variants: CatalogueVariant[], slug: string) {
+export function useVariantChoice(
+  variants: CatalogueVariant[],
+  slug: string,
+  initialModel?: string,
+) {
   const colours = colourOptions(variants);
   const sizes = modelOptions(variants, null);
   // Phone model first, then colour: the page opens with nothing chosen, and the
   // colours appear once the buyer has said which phone they have.
   const modelFirst = colours.length > 0 && sizes.length > 1;
-  const [choice, setChoice] = useState(() =>
-    modelFirst ? { colour: null, size: null } : initialChoice(variants),
-  );
+  const [choice, setChoice] = useState<{ colour: string | null; size: string | null }>(() => {
+    if (!modelFirst) return initialChoice(variants);
+    // A link from the stock page can name the buyer's model: open on it.
+    const size = sizeForModelKey(sizes, initialModel);
+    return { colour: size ? colourAfterModelChange(variants, size, null) : null, size };
+  });
   const [activeImage, setActiveImage] = useState(0);
   const colourChoices =
     modelFirst && choice.size === null ? [] : coloursForModel(colours, variants, choice.size);
