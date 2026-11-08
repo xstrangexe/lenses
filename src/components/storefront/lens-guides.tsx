@@ -5,7 +5,7 @@ export function CareTips() {
   const { t } = useI18n();
   const tips = ["lens.care.1", "lens.care.2", "lens.care.3", "lens.care.4"] as const;
   return (
-    <section className="container-page pb-12 sm:pb-16">
+    <section>
       <h2 className="font-display noir-h2">{t("lens.care.title")}</h2>
       <ol className="noir-care">
         {tips.map((key) => (

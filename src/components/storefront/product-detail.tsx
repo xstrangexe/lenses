@@ -9,6 +9,7 @@ import {
   type PublicReview,
 } from "@/lib/queries";
 import { useVariantChoice } from "./use-variant-choice";
+import { useColourSwatches } from "./use-colour-swatches";
 import { useMissingVariant } from "./use-missing-variant";
 import { StarRating } from "./star-rating";
 import { ProductGallery } from "./product-gallery";
@@ -71,6 +72,11 @@ export function ProductDetail({ product, initialModel }: ProductDetailProps) {
   } = useVariantChoice(variants, product.slug, initialModel);
 
   const { shownSizes, generations } = modelOptions(sizes);
+  const { galleryRef, swatches, chooseColour } = useColourSwatches(
+    variants,
+    colourChoices,
+    pickColour,
+  );
   const scrollToForm = () =>
     document.getElementById(ORDER_FORM_ID)?.scrollIntoView({ behavior: "smooth", block: "start" });
   const { pickersRef, showPickers, showMissing, missingKey } = useMissingVariant({
@@ -87,12 +93,14 @@ export function ProductDetail({ product, initialModel }: ProductDetailProps) {
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-2 lg:gap-12">
-      <ProductGallery
-        images={images}
-        alt={choice.colour ? `${name} — ${choice.colour}` : name}
-        active={activeImage}
-        onSelect={setActiveImage}
-      />
+      <div ref={galleryRef} className="scroll-mt-20 lg:sticky lg:top-24 lg:self-start">
+        <ProductGallery
+          images={images}
+          alt={choice.colour ? `${name} — ${choice.colour}` : name}
+          active={activeImage}
+          onSelect={setActiveImage}
+        />
+      </div>
 
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-2">
@@ -118,9 +126,9 @@ export function ProductDetail({ product, initialModel }: ProductDetailProps) {
             <p className="text-sm text-on-surface-muted">{t("store.pickModelFirst")}</p>
           ) : (
             <ColourPicker
-              colours={colourChoices}
+              colours={swatches}
               selected={choice.colour}
-              onSelect={pickColour}
+              onSelect={chooseColour}
               step={modelFirst ? "2" : undefined}
             />
           )}
@@ -137,9 +145,6 @@ export function ProductDetail({ product, initialModel }: ProductDetailProps) {
           )}
           {sizes.length > 0 && <ModelHelp name={name} />}
         </div>
-
-        {/* What the case is, above the form: the selling points a buyer on a
-            phone should read before the fields, not after them. */}
         {description && <Description text={description} />}
 
         {stockable.length > 0 && (

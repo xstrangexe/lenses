@@ -9,7 +9,13 @@ import type { CatalogueVariant } from "./queries";
  * and the gallery follows the colour.
  */
 
-export type ColourOption = { name: string; hex: string | null; inStock: boolean };
+export type ColourOption = {
+  name: string;
+  hex: string | null;
+  inStock: boolean;
+  /** First photo of this colour, when the owner added one. */
+  image?: string | null;
+};
 export type SizeOption = { name: string; inStock: boolean };
 
 // Clothing sizes in the order people read them. Anything unknown (shoe sizes,

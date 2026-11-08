@@ -31,7 +31,10 @@ export function useVariantChoice(
   // colours appear once the buyer has said which phone they have.
   const modelFirst = colours.length > 0 && sizes.length > 1;
   const [choice, setChoice] = useState<{ colour: string | null; size: string | null }>(() => {
-    if (!modelFirst) return initialChoice(variants);
+    // Several colours: nothing is chosen for the buyer, so she never orders a
+    // colour she did not pick. A single colour is chosen for her.
+    if (!modelFirst)
+      return colours.length > 1 ? { colour: null, size: null } : initialChoice(variants);
     // A link from the stock page can name the buyer's model: open on it.
     const size = sizeForModelKey(sizes, initialModel);
     return { colour: size ? colourAfterModelChange(variants, size, null) : null, size };

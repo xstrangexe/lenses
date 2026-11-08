@@ -30,6 +30,10 @@ export function ColourPicker({
 }) {
   const { t, locale } = useI18n();
   if (colours.length === 0) return null;
+  // With a photo per colour, the buyer judges the look on an eye, not a dot.
+  if (colours.some((c) => c.image)) {
+    return <PhotoSwatches colours={colours} selected={selected} onSelect={onSelect} step={step} />;
+  }
 
   return (
     <fieldset className="flex flex-col gap-2.5">
@@ -58,6 +62,58 @@ export function ColourPicker({
               <span className="colour-name">{colourLabel(colour.name, locale)}</span>
               {!colour.inStock && <span className="colour-off">{t("store.unavailableNow")}</span>}
             </span>
+          </button>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+/**
+ * Colour choice as eye close-ups cropped from each colour's own model photo,
+ * in a grid under the thumb. Nothing is chosen until she taps one.
+ */
+function PhotoSwatches({
+  colours,
+  selected,
+  onSelect,
+  step,
+}: {
+  colours: ColourOption[];
+  selected: string | null;
+  onSelect: (name: string) => void;
+  step?: string;
+}) {
+  const { t, locale } = useI18n();
+  return (
+    <fieldset className="flex flex-col gap-3">
+      <legend className="mb-1 text-sm">
+        <span className="text-on-surface-muted">
+          {step ? t("store.stepColour", { step }) : t("store.color")}:{" "}
+        </span>
+        <span className="font-semibold">
+          {selected ? colourLabel(selected, locale) : t("store.pickColourHint")}
+        </span>
+      </legend>
+      <div className="lens-swatches">
+        {colours.map((colour) => (
+          <button
+            key={colour.name}
+            type="button"
+            onClick={() => onSelect(colour.name)}
+            disabled={!colour.inStock}
+            aria-pressed={colour.name === selected}
+            className={cn("lens-swatch", colour.name === selected && "active")}
+          >
+            <span className="lens-swatch-eye" aria-hidden="true">
+              {colour.image ? (
+                <img src={colour.image} alt="" loading="lazy" />
+              ) : (
+                <span style={{ background: colour.hex ?? "var(--surface-high)" }} />
+              )}
+            </span>
+            <span className="lens-swatch-name">{colourLabel(colour.name, locale)}</span>
+            {!colour.inStock && <span className="colour-off">{t("store.unavailableNow")}</span>}
           </button>
         ))}
       </div>

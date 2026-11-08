@@ -16,4 +16,5 @@ export const enLens = {
   "lens.care.3": "No more than 8 hours a day; take them out before sleeping.",
   "lens.care.4": "If your eyes turn red or hurt, remove them and see an eye doctor.",
   "lens.care.note": "General advice. For any eye problem, see a specialist.",
+  "store.pickColourHint": "choose a colour",
 } as const;

@@ -2878,6 +2878,8 @@ html[dir="rtl"] {
 }
 .noir ::selection { background: var(--noir-gold); color: #1a120a; }
 .noir-gold { color: var(--noir-gold); }
+/* On the black stage the deep cream-page gold drops to 3:1; use champagne (8:1). */
+.noir .text-gold-ink { color: var(--noir-gold); }
 .noir-muted { color: var(--noir-muted); }
 
 .noir-hero {
@@ -3036,3 +3038,49 @@ html[dir="rtl"] {
   to { transform: scale(1); opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) { .noir-hero-img { animation: none; } }
+
+/* Colour as eye close-ups (variant-picker.tsx PhotoSwatches). The crop zooms
+   into each colour's own portrait around the eye line. */
+.lens-swatches {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.625rem;
+}
+@media (min-width: 640px) { .lens-swatches { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.lens-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 0.3125rem 0.3125rem 0.5rem;
+  border: 1.5px solid var(--outline);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--on-surface);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--dur-fast), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lens-swatch:hover:not(:disabled) { border-color: var(--outline-hi); }
+.lens-swatch.active {
+  border-color: var(--primary-solid);
+  box-shadow: 0 0 0 1.5px var(--primary-solid) inset, 0 8px 20px -10px var(--primary-glow);
+}
+.lens-swatch:focus-visible { outline: 2px solid var(--primary-solid); outline-offset: 2px; }
+.lens-swatch:disabled { cursor: not-allowed; opacity: 0.55; }
+.lens-swatch-eye {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 11px;
+  background: var(--surface-high);
+}
+.lens-swatch-eye img,
+.lens-swatch-eye > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(2.6);
+  transform-origin: 50% 38%;
+}
+.lens-swatch-name { font-size: 0.8125rem; font-weight: 600; line-height: 1.3; }

@@ -16,4 +16,11 @@ export const frLens = {
   "lens.care.3": "Pas plus de 8 heures par jour, retirez-les avant de dormir.",
   "lens.care.4": "En cas de rougeur ou de douleur, retirez-les et consultez un ophtalmologue.",
   "lens.care.note": "Conseils généraux. En cas de problème oculaire, consultez un spécialiste.",
+  "store.pickColourHint": "choisissez une couleur",
+  "pfaq.q3": "La couleur ne me plaît pas, puis-je échanger ?",
+  "pfaq.a3":
+    "Oui, sous 7 jours après réception si la boîte est encore scellée, pour des raisons d'hygiène. Les frais de livraison de l'échange sont à votre charge.",
+  "pfaq.q4": "Combien de temps puis-je les porter ?",
+  "pfaq.a4":
+    "Pas plus de 8 heures par jour, retirez-les avant de dormir. La durée d'utilisation est indiquée sur la boîte ; conservez-les toujours dans la solution.",
 } as const;

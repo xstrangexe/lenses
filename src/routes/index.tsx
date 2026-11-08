@@ -131,7 +131,9 @@ function Home() {
             </>
           )}
         </section>
-        <CareTips />
+        <div className="container-page pb-12 sm:pb-16">
+          <CareTips />
+        </div>
         <PromoBand threshold={settings?.free_shipping_threshold ?? 0} />
         <ReviewWall />
         <HowToOrder />

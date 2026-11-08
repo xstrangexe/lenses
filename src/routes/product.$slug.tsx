@@ -4,6 +4,7 @@ import { ProductDetail } from "@/components/storefront/product-detail";
 import { SizeGuide } from "@/components/storefront/size-guide";
 import { ReviewsSection } from "@/components/storefront/reviews";
 import { ProductFaq } from "@/components/storefront/product-faq";
+import { CareTips } from "@/components/storefront/lens-guides";
 import { ErrorState } from "@/components/ui/feedback";
 import {
   productImage,
@@ -85,20 +86,25 @@ function ProductPage() {
 
   return (
     <StoreLayout bottomNav={false}>
-      <div className="container-page flex flex-col gap-12 py-8 sm:py-12">
-        {isError ? (
-          <ErrorState message={error.message} onRetry={() => void refetch()} />
-        ) : (
-          <ProductDetail product={current} initialModel={model} />
-        )}
+      {/* Same black-and-gold stage as the home page, so an ad visitor sees one store. */}
+      <div className="noir" data-theme="dark">
+        <div className="container-page flex flex-col gap-12 py-8 sm:py-12">
+          {isError ? (
+            <ErrorState message={error.message} onRetry={() => void refetch()} />
+          ) : (
+            <ProductDetail product={current} initialModel={model} />
+          )}
 
-        <ProductFaq />
+          <CareTips />
 
-        <SizeGuide productId={current.id} />
+          <ProductFaq />
 
-        <RelatedProducts product={current} />
+          <SizeGuide productId={current.id} />
 
-        <ReviewsSection productId={current.id} />
+          <RelatedProducts product={current} />
+
+          <ReviewsSection productId={current.id} />
+        </div>
       </div>
     </StoreLayout>
   );
