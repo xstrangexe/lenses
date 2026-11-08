@@ -48,41 +48,44 @@ function CategoryPage() {
 
   return (
     <StoreLayout>
-      <div className="container-page py-10">
-        {/* The view owns its own query, loading and empty states now: filtering and
+      {/* The same dark stage as the home and product pages. */}
+      <div className="noir" data-theme="dark">
+        <div className="container-page py-10">
+          {/* The view owns its own query, loading and empty states now: filtering and
             paging happen in the database, so a component handed a list could only
             ever filter the list it was given. */}
-        <CatalogueView
-          heading={heading}
-          subheading={category.description ?? undefined}
-          initialFilters={{ ...EMPTY_FILTERS, categorySlug: category.slug }}
-        />
+          <CatalogueView
+            heading={heading}
+            subheading={category.description ?? undefined}
+            initialFilters={{ ...EMPTY_FILTERS, categorySlug: category.slug }}
+          />
 
-        {/* Other categories, so a buyer who landed here from search can keep
+          {/* Other categories, so a buyer who landed here from search can keep
             browsing instead of hitting a dead end. */}
-        {others.length > 0 && (
-          <nav
-            className="mt-12 flex flex-col gap-3 border-t border-outline pt-8"
-            aria-label={t("home.categories")}
-          >
-            <h2 className="text-sm font-semibold uppercase tracking-[0.03em] text-on-surface-muted">
-              {t("home.categories")}
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {others.map((entry) => (
-                <Link
-                  key={entry.id}
-                  to="/category/$slug"
-                  params={{ slug: entry.slug }}
-                  className="chip"
-                >
-                  {localized(locale, entry.name, entry.name_fr)}
-                  <span className="font-mono text-xs opacity-70">{entry.product_count}</span>
-                </Link>
-              ))}
-            </div>
-          </nav>
-        )}
+          {others.length > 0 && (
+            <nav
+              className="mt-12 flex flex-col gap-3 border-t border-outline pt-8"
+              aria-label={t("home.categories")}
+            >
+              <h2 className="text-sm font-semibold uppercase tracking-[0.03em] text-on-surface-muted">
+                {t("home.categories")}
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {others.map((entry) => (
+                  <Link
+                    key={entry.id}
+                    to="/category/$slug"
+                    params={{ slug: entry.slug }}
+                    className="chip"
+                  >
+                    {localized(locale, entry.name, entry.name_fr)}
+                    <span className="font-mono text-xs opacity-70">{entry.product_count}</span>
+                  </Link>
+                ))}
+              </div>
+            </nav>
+          )}
+        </div>
       </div>
     </StoreLayout>
   );
