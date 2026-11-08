@@ -46,7 +46,7 @@ export const Route = createFileRoute("/")({
     const ar = match.context.locale === "ar";
     const name = s?.name?.trim();
     const tagline = (ar ? s?.tagline : s?.tagline_fr)?.trim();
-    const title = name ? `${name}${tagline ? ` — ${tagline}` : ""}` : "Dahab Lenses";
+    const title = name ? `${name}${tagline ? ` — ${tagline}` : ""}` : "Lens DZ";
     const count = deliveryWilayaCount(s);
     const description =
       (ar ? s?.description : s?.description_fr)?.trim() ||
@@ -82,7 +82,7 @@ function Home() {
   if (configProblem) {
     return (
       <main className="container-page flex min-h-dvh flex-col items-center justify-center gap-6 py-20 text-center">
-        <h1 className="font-display text-3xl font-semibold">{settings?.name ?? "Dahab Lenses"}</h1>
+        <h1 className="font-display text-3xl font-semibold">{settings?.name ?? "Lens DZ"}</h1>
         <SetupCheck />
       </main>
     );

@@ -182,7 +182,7 @@ export const frStorefront = {
   "reviews.thanksBody": "Votre avis sera visible après validation par la boutique.",
   "reviews.count": "{count} avis",
   "reviews.shopTitle": "Ce que disent nos clientes",
-  "reviews.shopBody": "Avis de clientes qui ont acheté d'autres produits Dahab Lenses.",
+  "reviews.shopBody": "Avis de clientes qui ont acheté d'autres produits Lens DZ.",
   "reviews.awaitingModeration": "En attente de validation",
   "home.hero.title": "La nouvelle collection, livrée chez vous",
   "home.hero.body":

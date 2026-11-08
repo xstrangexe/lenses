@@ -36,7 +36,7 @@ export const arAdmin = {
   "admin.reviews.inviteCopy": "نسخ الرابط",
   "admin.reviews.inviteCopied": "تم النسخ",
   "admin.reviews.inviteMessage":
-    "السلام عليكم {name}، شكراً على ثقتك في Dahab Lenses. إذا وصلتك الطلبية وعجبتك، ممكن تقيّمها وتزيد صورة؟ ياخذ دقيقة: {link}",
+    "السلام عليكم {name}، شكراً على ثقتك في Lens DZ. إذا وصلتك الطلبية وعجبتك، ممكن تقيّمها وتزيد صورة؟ ياخذ دقيقة: {link}",
   "admin.reviews.fromOrder": "من طلب حقيقي",
   "admin.reviews.empty": "لا توجد تقييمات بانتظار المراجعة",
   "admin.reviews.add": "إضافة تقييم زبون",

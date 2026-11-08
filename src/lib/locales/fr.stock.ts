@@ -1,6 +1,6 @@
 /* fr copy for the /stock landing page. */
 export const frStock = {
-  "stock.pageTitle": "Les coques disponibles pour votre iPhone | Dahab Lenses",
+  "stock.pageTitle": "Les coques disponibles pour votre iPhone | Lens DZ",
   "stock.title": "Choisissez votre modèle",
   "stock.sub": "Nous ne vous montrons que les coques disponibles pour votre téléphone.",
   "stock.pick": "Touchez votre modèle pour voir les coques disponibles.",

@@ -184,7 +184,7 @@ export const arStorefront = {
   "reviews.thanksBody": "سيظهر تقييمك بعد مراجعته من طرف المتجر.",
   "reviews.count": "{count} تقييم",
   "reviews.shopTitle": "واش قالو زبائننا",
-  "reviews.shopBody": "آراء من زبائن شراو منتجات أخرى من Dahab Lenses.",
+  "reviews.shopBody": "آراء من زبائن شراو منتجات أخرى من Lens DZ.",
   "reviews.awaitingModeration": "بانتظار الموافقة",
   "home.hero.title": "لوك فخم يوصلك حتى لباب الدار",
   "home.hero.body": "اطلب دركا وخلص كي توصلك السلعة. بلا كارطة وبلا حساب.",

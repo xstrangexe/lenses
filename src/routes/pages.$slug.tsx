@@ -9,7 +9,7 @@ export const Route = createFileRoute("/pages/$slug")({
     return { page };
   },
   head: ({ loaderData }) => ({
-    meta: [{ title: loaderData ? `${loaderData.page.title} | Dahab Lenses` : "Dahab Lenses" }],
+    meta: [{ title: loaderData ? `${loaderData.page.title} | Lens DZ` : "Lens DZ" }],
   }),
   component: InfoPageView,
 });

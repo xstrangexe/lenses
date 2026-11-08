@@ -45,7 +45,7 @@ function SetupPage() {
     <main className="container-page flex min-h-dvh flex-col items-center justify-center gap-6 py-16">
       <Link to="/" className="flex items-center gap-2 font-display text-lg font-semibold">
         <Store size={20} className="text-primary" aria-hidden="true" />
-        Dahab Lenses
+        Lens DZ
       </Link>
       <SetupForm onAwaitingEmail={() => setPhase("awaitEmail")} />
     </main>
