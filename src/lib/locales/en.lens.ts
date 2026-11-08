@@ -1,8 +1,7 @@
 /* en copy for the lens store home page sections. */
 export const enLens = {
   "lens.hero.title": "Your eyes, a new colour",
-  "lens.hero.body":
-    "Colour lenses from genuine brands, with or without prescription. Pay on delivery.",
+  "lens.hero.body": "Colour lenses from genuine brands, with a natural look. Pay on delivery.",
   "lens.hero.cta": "Choose a brand",
   "lens.grid.title": "All lenses",
   "lens.hero.alt": "Two models wearing green and hazel colour lenses",
@@ -65,4 +64,9 @@ export const enLens = {
   "sova.reseller.body":
     "Tiered prices, reserved stock and tracked delivery for opticians and beauty shops.",
   "sova.reseller.cta": "Wholesale access",
+  "sova.selected.title": "Selected lenses",
+  "sova.new.title": "New arrivals",
+  "sova.promise.eyebrow": "Our promise",
+  "sova.promise.1": "Handpicked colours",
+  "sova.promise.1b": "Every colour is chosen by us before it goes online.",
 } as const;

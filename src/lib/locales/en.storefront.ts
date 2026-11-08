@@ -40,7 +40,7 @@ export const enStorefront = {
     "You already have orders waiting for confirmation. The shop will call you soon, so there is no need to order again.",
   "checkout.method.title": "How you receive it",
   "checkout.method.home": "Home delivery",
-  "checkout.method.stopdesk": "Delivery to a ZR EXPRESS office",
+  "checkout.method.stopdesk": "ZR Express office",
   "checkout.stopdesk.choose": "Choose the office",
   "checkout.stopdesk.later":
     "The shop will tell you the nearest office when they call to confirm your order.",

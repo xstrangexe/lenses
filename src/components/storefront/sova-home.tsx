@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Banknote, PhoneCall, RefreshCw, Sparkles } from "lucide-react";
 import { useI18n } from "@/lib/i18n-context";
 import { useStoreSettings } from "@/lib/queries";
 import { waLink } from "@/lib/whatsapp";
@@ -55,25 +55,34 @@ export function SovaTicker() {
   );
 }
 
-/** Four numbered promises under the hero. */
-export function SovaTrustStrip({ wilayaCount }: { wilayaCount: number | null }) {
+/** "Our promise": four short icon items, only claims the shop really makes. */
+export function SovaPromise() {
   const { t } = useI18n();
-  // Only the wilaya count the shop's own delivery list gives; no number when unset.
-  const labels = [
-    t("sova.trust.1"),
-    t("sova.trust.2"),
-    t("sova.trust.3"),
-    wilayaCount ? t("sova.trust.4", { n: String(wilayaCount) }) : t("sova.trust.4b"),
+  const items = [
+    { Icon: Sparkles, title: t("sova.promise.1"), body: t("sova.promise.1b") },
+    { Icon: Banknote, title: t("home2.trust.cod"), body: t("home2.trust.codBody") },
+    { Icon: PhoneCall, title: t("sova.ticker.4"), body: t("express.trustConfirm") },
+    {
+      Icon: RefreshCw,
+      title: t("sova.trust.3"),
+      body: t("home2.trust.exchangeBody", { days: "7" }),
+    },
   ];
   return (
-    <ul className="sova-strip container-page">
-      {labels.map((label, i) => (
-        <li key={label}>
-          <span className="sova-strip-n">0{i + 1}</span>
-          <b>{label}</b>
-        </li>
-      ))}
-    </ul>
+    <section className="sova-band">
+      <div className="container-page sova-section">
+        <p className="sova-eyebrow">{t("sova.promise.eyebrow")}</p>
+        <ul className="sova-promise">
+          {items.map(({ Icon, title, body }) => (
+            <li key={title}>
+              <Icon size={26} aria-hidden="true" />
+              <b>{title}</b>
+              <span>{body}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }
 

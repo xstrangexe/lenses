@@ -61,13 +61,11 @@ export function DeliveryChoice({
         </span>
         <Icon size={22} className="dc-icon" aria-hidden="true" />
         <span className="dc-label">{label}</span>
-        <span className="dc-fee" dir={wilaya && !unavailable ? "ltr" : undefined}>
-          {!wilaya
-            ? t("express.deliveryPending")
-            : unavailable
-              ? unavailable
-              : formatDzd(fee ?? 0, locale)}
-        </span>
+        {wilaya && (
+          <span className="dc-fee" dir={unavailable ? undefined : "ltr"}>
+            {unavailable ?? formatDzd(fee ?? 0, locale)}
+          </span>
+        )}
       </label>
     );
   };
@@ -86,6 +84,7 @@ export function DeliveryChoice({
           pickupFee === null ? t("express.officeNoneShort") : null,
         )}
       </div>
+      {!wilaya && <p className="dc-note">{t("express.deliveryPending")}</p>}
 
       {method === "stopdesk" &&
         wilaya &&

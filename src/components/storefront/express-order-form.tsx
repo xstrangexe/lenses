@@ -10,7 +10,7 @@ import { DeliveryChoice } from "./delivery-choice";
 import { ExpressOrderSummary } from "./express-order-summary";
 import { WilayaCommuneFields } from "./express-order-fields";
 import { ModelField, type ModelChoice } from "./model-field";
-import { AddressField, NameField, PhoneField, TrustRow } from "./express-order-inputs";
+import { AddressField, ChoiceRow, NameField, PhoneField, TrustRow } from "./express-order-inputs";
 import { useExpressOrder } from "./use-express-order";
 
 /** The section the "order now" buttons scroll to. */
@@ -77,6 +77,8 @@ export function ExpressOrderForm({
         onChange={order.markStarted}
         className="xo-form"
       >
+        {!model && <ChoiceRow label={variantLabel} onChange={onMissingVariant} />}
+
         {model && (
           <ModelField
             choice={{

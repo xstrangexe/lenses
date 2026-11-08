@@ -3247,3 +3247,109 @@ html[dir="rtl"] {
   .noir .gallery-main { aspect-ratio: 4 / 3; }
   .noir .gallery-main img { object-position: 50% 28%; }
 }
+
+/* Our promise: four icon items, kiisbeauty's order on the dark stage. */
+.sova-promise { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; padding: 0; margin: 0; list-style: none; }
+@media (min-width: 768px) { .sova-promise { grid-template-columns: repeat(4, 1fr); gap: 2rem; } }
+.sova-promise li { display: flex; flex-direction: column; gap: 0.5rem; }
+.sova-promise svg { color: var(--sova-accent); }
+.sova-promise b { font: 400 0.9375rem/1.2 var(--sova-display); text-transform: uppercase; }
+[dir="rtl"] .sova-promise b { font-family: "Cairo Variable", var(--sova-display); font-weight: 900; }
+.sova-promise span { font-size: 0.875rem; color: #a3a3a3; line-height: 1.6; }
+
+/* Hero video sits over the photo; the eye is in the upper third of the clip. */
+.noir-hero-video { object-position: 50% 28%; animation: none; z-index: -2; }
+@media (prefers-reduced-motion: reduce) { .noir-hero-video { display: none; } }
+
+/* ── Express order form on the SOVA stage ────────────────────────────────────
+   Same fields and behaviour; graphite card, one orange accent, square 2px
+   corners, and a tighter rhythm so the whole form fits in fewer phone screens.
+   Inputs stay at 16px text so iOS never zooms on tap. */
+.noir .xo {
+  padding: 16px 14px 14px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: #1f1f1f;
+  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+@media (min-width: 640px) { .noir .xo { padding: 24px 22px 20px; } }
+.noir .xo-head { text-align: start; }
+.noir .xo-title { font: 400 1.25rem/1.15 var(--sova-display); text-transform: uppercase; letter-spacing: -0.01em; }
+[dir="rtl"] .noir .xo-title { font-family: "Cairo Variable", var(--sova-display); font-weight: 900; line-height: 1.35; }
+.noir .xo-sub { margin-top: 4px; font-size: 13.5px; line-height: 1.5; color: #a3a3a3; }
+
+/* Promises: one quiet line of chips instead of three tall boxes. */
+.noir .xo-trust { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 14px; }
+.noir .xo-trust li {
+  flex-direction: row; gap: 6px; padding: 5px 10px 5px 8px; border: 1px solid #3a3a3a; border-radius: 999px;
+  background: transparent; font-size: 12.5px; font-weight: 600; line-height: 1.2; color: #e5e5e5;
+}
+.noir .xo-trust-icon { width: auto; height: auto; background: none; color: var(--sova-accent); }
+.noir .xo-trust-icon svg { width: 14px; height: 14px; }
+
+/* Fields: shorter, square, orange focus. */
+.noir .xo-form { gap: 10px; }
+.noir .xo .form-group label, .noir .xo legend { font-size: 12.5px; font-weight: 600; color: #d4d4d4; }
+.noir .xo .form-input, .noir .xo .form-select {
+  min-height: 46px; border-radius: 4px; border-color: #3a3a3a; background-color: #171717; color: #fff;
+}
+.noir .xo .form-input::placeholder { color: #8a8a8a; }
+.noir .xo .form-input:focus, .noir .xo .form-select:focus {
+  border-color: var(--sova-accent); background-color: #171717; box-shadow: 0 0 0 3px rgba(222, 99, 60, 0.22);
+}
+.noir .xo .form-select option { background: #1f1f1f; }
+.noir .xo-add { min-height: 36px; font-size: 13px; color: var(--sova-accent); }
+.noir .xo ::selection { background: var(--sova-accent); color: #fff; }
+.noir .xo .form-input { caret-color: var(--sova-accent); }
+
+/* Delivery: two short side-by-side tiles, icon and fee on one row. */
+.noir .xo .dc-card {
+  display: grid; grid-template-columns: auto 1fr; grid-template-areas: "icon label" "icon fee";
+  align-items: center; justify-items: start; column-gap: 10px; row-gap: 2px;
+  min-height: 0; padding: 10px 12px; border: 1px solid #3a3a3a; border-radius: 4px; background: #171717; text-align: start;
+}
+.noir .xo .dc-icon { grid-area: icon; color: #8a8a8a; width: 20px; height: 20px; }
+.noir .xo .dc-label { grid-area: label; font-size: 12.5px; }
+.noir .xo .dc-fee { grid-area: fee; font-size: 14px; }
+.noir .xo .dc-card.is-active { border-color: var(--sova-accent); background: rgba(222, 99, 60, 0.1); }
+.noir .xo .dc-card.is-active .dc-icon, .noir .xo .dc-card.is-active .dc-fee { color: var(--sova-accent); }
+.noir .xo .dc-card:has(input:focus-visible) { outline-color: var(--sova-accent); }
+.noir .xo .dc-tick { top: 6px; inset-inline-start: auto; inset-inline-end: 6px; width: 16px; height: 16px; background: var(--sova-accent); color: #fff; }
+.noir .xo .dc-note { border-radius: 4px; background: #171717; }
+
+/* Summary and the one order button. */
+.noir .xo-summary { padding-top: 12px; border-top: 1px solid #333; }
+.noir .xo-summary-title { margin-bottom: 8px; font-size: 12.5px; color: #a3a3a3; text-transform: uppercase; letter-spacing: 0.12em; }
+[dir="rtl"] .noir .xo-summary-title { letter-spacing: 0; }
+.noir .xo-item { gap: 10px; padding-bottom: 10px; border-color: #333; }
+.noir .xo-item img { width: 48px; height: 48px; border-radius: 4px; }
+.noir .xo-qty { height: 40px; border-color: #3a3a3a; border-radius: 4px; }
+.noir .xo-qty button { width: 40px; color: var(--sova-accent); }
+.noir .xo-lines { gap: 6px; margin-top: 10px; font-size: 13.5px; }
+.noir .xo-lines dt { color: #a3a3a3; }
+.noir .xo-lines .xo-total { padding-top: 10px; border-top: 1px dashed #4a4a4a; }
+.noir .xo-total dd { font-size: 22px; color: var(--sova-accent); }
+.noir .xo-error { border-radius: 4px; }
+.noir .xo-cta {
+  min-height: 52px; border-radius: 2px; background: var(--sova-accent); color: #fff; box-shadow: none;
+  font: 400 0.9375rem/1 var(--sova-display); letter-spacing: 0.08em; text-transform: uppercase;
+}
+[dir="rtl"] .noir .xo-cta { font-family: "Cairo Variable", var(--sova-display); font-weight: 900; font-size: 1.0625rem; letter-spacing: 0; }
+.noir .xo-cta:hover:not(:disabled) { background: var(--sova-accent-hi); }
+.noir .xo-cta:focus-visible { outline-color: #fff; }
+.noir .xo-privacy, .noir .xo-delivery { font-size: 12.5px; }
+.noir .xo-delivery { color: #d4d4d4; }
+
+/* The chosen colour, first line of the order form. */
+.noir .xo-choice {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 8px 12px;
+  border: 1px solid #3a3a3a; border-radius: 4px; background: #171717; color: #fff; font-size: 14px; text-align: start;
+}
+.noir .xo-choice-key { color: #a3a3a3; font-size: 12.5px; }
+.noir .xo-choice b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.noir .xo-choice-change { margin-inline-start: auto; color: var(--sova-accent); font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.noir .xo-choice.is-missing { border-color: var(--sova-accent); background: rgba(222, 99, 60, 0.1); color: #ffd2c2; }
+.noir .xo-choice.is-missing svg { flex: none; color: var(--sova-accent); }
+.noir .xo-choice:focus-visible { outline: 2px solid var(--sova-accent); outline-offset: 2px; }
+.noir .xo .dc-note { margin: 0; font-size: 12.5px; color: #a3a3a3; }

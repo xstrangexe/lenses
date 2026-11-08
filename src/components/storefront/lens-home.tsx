@@ -21,6 +21,18 @@ export function LensHero({ hasBrands }: { hasBrands: boolean }) {
         className="noir-hero-img"
         fetchPriority="high"
       />
+      {/* Muted loop over the photo. Reduced-motion visitors keep the still. */}
+      <video
+        className="noir-hero-img noir-hero-video"
+        src="/home/hero.mp4"
+        poster="/home/hero-poster.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+      />
       <div className="noir-hero-shade" aria-hidden="true" />
       <div className="container-page noir-hero-copy">
         <p className="sova-eyebrow">{t("sova.hero.eyebrow")}</p>

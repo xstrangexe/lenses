@@ -63,4 +63,9 @@ export const arLens = {
   "sova.reseller.title": "بيعو Lens DZ في محلكم.",
   "sova.reseller.body": "أسعار جملة، مخزون محجوز وتوصيل متتبع للبصريات ومحلات التجميل.",
   "sova.reseller.cta": "أسعار الجملة",
+  "sova.selected.title": "عدسات مختارة",
+  "sova.new.title": "وصل جديد",
+  "sova.promise.eyebrow": "وعدنا",
+  "sova.promise.1": "ألوان مختارة بعناية",
+  "sova.promise.1b": "كل لون نختارو بنفسنا قبل ما ينزل للموقع.",
 } as const;

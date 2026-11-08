@@ -4,7 +4,9 @@
  * buyer arrives from an ad on a phone and reads it in a few seconds.
  */
 export const arOrder = {
-  "express.title": "اطلبي دركا — الدفع عند الاستلام",
+  "express.title": "أطلبي الآن",
+  "express.choice.label": "اختيارك",
+  "express.choice.change": "بدّلي",
   "express.subtitle": "عمّري معلوماتك وأكّدي الطلب، نعيطولك باش نأكدو معاك.",
   "express.fullName": "الاسم الكامل",
   "express.model": "موديل هاتفك",
@@ -29,7 +31,7 @@ export const arOrder = {
   "express.cod": "الدفع عند الاستلام — تخلصي كي يوصلك الطلب",
   "express.feeFirst": "شوفي مصاريف التوصيل قبل ما تأكدي الطلب",
   "express.privacy": "معلوماتك تستعمل لمعالجة طلبك فقط",
-  "express.submit": "أكدي طلبي دركا",
+  "express.submit": "تأكيد الطلب",
   "express.deliveryNote": "الدفع عند الاستلام · يوصلك خلال 1–3 أيام",
   "express.officeNoneShort": "ماكانش هنا",
   "express.trustConfirm": "تأكيد سريع بالهاتف",
@@ -67,8 +69,8 @@ export const arOrder = {
   "review.unavailable": "هاذ الرابط غير صالح ولا الطلبية ما وصلتش بعد.",
   "review.nothingLeft": "قيّمت كل منتجات هاذ الطلبية. شكراً!",
   "express.colours": "{count} ألوان",
-  "express.cta": "اطلبي دركا",
-  "express.ctaPrice": "اطلبي دركا — {price}",
+  "express.cta": "أطلبي الآن",
+  "express.ctaPrice": "أطلبي الآن — {price}",
   "placed.title": "شكراً {name}، طلبك وصلنا!",
   "placed.number": "رقم الطلب",
   "placed.next": "واش يصرا دركا؟",

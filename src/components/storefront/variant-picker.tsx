@@ -2,6 +2,7 @@ import { useId } from "react";
 import { useFieldWiring } from "@/components/ui/form";
 import { useI18n } from "@/lib/i18n-context";
 import { colourLabel } from "@/lib/colour-names";
+import { COLOUR_PICKER_ID } from "./express-order-inputs";
 import { modelLabel, parseModel } from "@/lib/phone-models";
 import type { ColourOption, SizeOption } from "@/lib/variant-options";
 import { cn } from "@/lib/utils";
@@ -36,7 +37,7 @@ export function ColourPicker({
   }
 
   return (
-    <fieldset className="flex flex-col gap-2.5">
+    <fieldset id={COLOUR_PICKER_ID} className="flex flex-col gap-2.5 scroll-mt-24">
       <legend className="mb-1 text-sm">
         <span className="text-on-surface-muted">
           {step ? t("store.stepColour", { step }) : t("store.color")}:{" "}
@@ -86,7 +87,7 @@ function PhotoSwatches({
 }) {
   const { t, locale } = useI18n();
   return (
-    <fieldset className="flex flex-col gap-3">
+    <fieldset id={COLOUR_PICKER_ID} className="flex flex-col gap-3 scroll-mt-24">
       <legend className="mb-1 text-sm">
         <span className="text-on-surface-muted">
           {step ? t("store.stepColour", { step }) : t("store.color")}:{" "}

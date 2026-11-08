@@ -2,7 +2,7 @@
 export const frLens = {
   "lens.hero.title": "Vos yeux, une nouvelle couleur",
   "lens.hero.body":
-    "Lentilles de couleur de marques authentiques, avec ou sans correction. Paiement à la livraison.",
+    "Lentilles de couleur de marques authentiques, au rendu naturel. Paiement à la livraison.",
   "lens.hero.cta": "Choisir une marque",
   "lens.grid.title": "Toutes les lentilles",
   "lens.hero.alt": "Deux mannequins portant des lentilles vertes et noisette",
@@ -71,4 +71,9 @@ export const frLens = {
   "sova.reseller.body":
     "Tarifs dégressifs, stock réservé et livraison suivie pour opticiens et boutiques beauté.",
   "sova.reseller.cta": "Accès grossiste",
+  "sova.selected.title": "Lentilles sélectionnées",
+  "sova.new.title": "Nouveautés",
+  "sova.promise.eyebrow": "Notre promesse",
+  "sova.promise.1": "Couleurs choisies à la main",
+  "sova.promise.1b": "Chaque couleur est choisie par nous avant d'être en ligne.",
 } as const;

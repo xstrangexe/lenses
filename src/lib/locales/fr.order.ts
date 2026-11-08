@@ -1,7 +1,9 @@
 import type { arOrder } from "./ar.order";
 
 export const frOrder: Record<keyof typeof arOrder, string> = {
-  "express.title": "Commander — paiement à la livraison",
+  "express.title": "Commander",
+  "express.choice.label": "Votre choix",
+  "express.choice.change": "Changer",
   "express.subtitle": "Remplissez vos informations, nous vous appelons pour confirmer.",
   "express.fullName": "Nom complet",
   "express.model": "Modèle de votre téléphone",

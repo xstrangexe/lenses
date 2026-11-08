@@ -10,7 +10,7 @@ import {
   SovaQuickAccess,
   SovaReseller,
   SovaStory,
-  SovaTrustStrip,
+  SovaPromise,
 } from "@/components/storefront/sova-home";
 import { ErrorState, NoProducts, ProductSkeleton } from "@/components/ui/feedback";
 import { SetupCheck } from "@/components/setup-check";
@@ -27,7 +27,7 @@ import { useI18n } from "@/lib/i18n-context";
 import { absoluteUrl } from "@/lib/site-url";
 
 // Three rows on a phone. The rest is one tap away in the shop.
-const GRID_SIZE = 6;
+const GRID_SIZE = 4;
 
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {
@@ -99,7 +99,7 @@ function Home() {
   // Every published lens line; colours and powers are chosen on its page.
   const cases = catalogue.data?.products ?? [];
   const grid = cases.slice(0, GRID_SIZE);
-  const wilayaCount = deliveryWilayaCount(settings);
+  const fresh = cases.slice(GRID_SIZE, GRID_SIZE * 2);
   const brands = (categories ?? []).filter((c) => c.product_count > 0);
 
   // Noir & Gold: hero, brands, promises, lenses, power guide, care, reviews,
@@ -108,12 +108,11 @@ function Home() {
     <StoreLayout>
       <div className="noir" data-theme="dark">
         <LensHero hasBrands={brands.length >= 2} />
-        <SovaTrustStrip wilayaCount={wilayaCount} />
 
         <section id="catalogue" className="container-page sova-section scroll-mt-20 !pt-0">
           <SovaHead
             eyebrow={t("sova.drop.eyebrow")}
-            title={t("sova.drop.title")}
+            title={t("sova.selected.title")}
             to="/catalogue"
             toLabel={t("sova.drop.all")}
           />
@@ -143,6 +142,13 @@ function Home() {
             </>
           )}
         </section>
+        <SovaPromise />
+        {fresh.length > 0 && (
+          <section className="container-page sova-section">
+            <SovaHead eyebrow={t("sova.drop.eyebrow")} title={t("sova.new.title")} />
+            <ProductGrid products={fresh} />
+          </section>
+        )}
         <SovaQuickAccess />
         <BrandRow brands={brands} />
         <SovaManifesto />

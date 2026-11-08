@@ -40,7 +40,7 @@ export const frStorefront = {
     "Vous avez déjà des commandes en attente de confirmation. La boutique va vous appeler, inutile de recommander.",
   "checkout.method.title": "Mode de livraison",
   "checkout.method.home": "Livraison à domicile",
-  "checkout.method.stopdesk": "Livraison au bureau ZR EXPRESS",
+  "checkout.method.stopdesk": "Bureau ZR Express",
   "checkout.stopdesk.choose": "Choisissez le bureau",
   "checkout.stopdesk.later":
     "La boutique vous indiquera le bureau le plus proche lors de l’appel de confirmation.",
