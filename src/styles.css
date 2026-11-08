@@ -3228,3 +3228,22 @@ html[dir="rtl"] {
 /* Footer on the same stage */
 .sova-footer { background: #111; border-color: #333; }
 .sova-footer .font-display { font-family: var(--sova-display); text-transform: uppercase; letter-spacing: 0.12em; }
+
+/* Critique fixes: legible hero line, one accent, first lens sooner. */
+.noir-hero { min-height: min(78svh, 680px); }
+.noir-hero-shade { background: linear-gradient(180deg, rgba(23, 23, 23, 0.7) 0%, rgba(23, 23, 23, 0.6) 50%, #171717 100%); }
+.sova-outline { color: var(--sova-accent); -webkit-text-stroke: 0; }
+.sova-hero-h1 { text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45); }
+.sova-hero .sova-eyebrow, .noir-hero-copy .sova-eyebrow { color: #fff; opacity: 0.9; }
+.noir .pc-cta .btn { background: var(--sova-accent); border-color: var(--sova-accent); color: #fff; font-weight: 700; }
+.noir .pc-cta .btn:hover { background: var(--sova-accent-hi); border-color: var(--sova-accent-hi); }
+
+/* Product page on the dark stage: one orange order action, and a gallery short
+   enough that the name, price and colours show on the first phone screen. */
+.noir .btn-primary { background: var(--sova-accent); color: #fff; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.06em; }
+.noir .btn-primary:hover:not(:disabled) { background: var(--sova-accent-hi); opacity: 1; }
+[dir="rtl"] .noir .btn-primary { letter-spacing: 0; }
+@media (max-width: 1023px) {
+  .noir .gallery-main { aspect-ratio: 4 / 3; }
+  .noir .gallery-main img { object-position: 50% 28%; }
+}

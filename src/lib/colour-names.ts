@@ -33,6 +33,16 @@ const AR: Record<string, string> = {
   "blue tiffany": "أزرق تيفاني",
   ice: "جليدي",
   "sun kiss": "ذهبي دافئ",
+  mel: "عسلي",
+  jade: "أخضر يشم",
+  grafite: "رمادي جرافيت",
+  agata: "عقيق",
+  ocre: "أوكر",
+  avela: "بندقي داكن",
+  topazio: "توباز",
+  quartzo: "كوارتز",
+  ambar: "عنبري",
+  cristal: "كريستال",
 };
 
 export function colourLabel(name: string | null, locale: Locale): string {

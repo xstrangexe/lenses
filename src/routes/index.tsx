@@ -6,7 +6,6 @@ import { BrandRow, LensHero } from "@/components/storefront/lens-home";
 import { CareTips } from "@/components/storefront/lens-guides";
 import {
   SovaHead,
-  SovaHow,
   SovaManifesto,
   SovaQuickAccess,
   SovaReseller,
@@ -109,8 +108,7 @@ function Home() {
     <StoreLayout>
       <div className="noir" data-theme="dark">
         <LensHero hasBrands={brands.length >= 2} />
-        <SovaTrustStrip />
-        <SovaQuickAccess />
+        <SovaTrustStrip wilayaCount={wilayaCount} />
 
         <section id="catalogue" className="container-page sova-section scroll-mt-20 !pt-0">
           <SovaHead
@@ -145,6 +143,7 @@ function Home() {
             </>
           )}
         </section>
+        <SovaQuickAccess />
         <BrandRow brands={brands} />
         <SovaManifesto />
         <SovaStory />
@@ -154,7 +153,6 @@ function Home() {
         <PromoBand threshold={settings?.free_shipping_threshold ?? 0} />
         <ReviewWall />
         <HowToOrder />
-        <SovaHow returnsDays={settings?.returns_days ?? 7} wilayaCount={wilayaCount ?? 58} />
         <SovaReseller />
       </div>
     </StoreLayout>

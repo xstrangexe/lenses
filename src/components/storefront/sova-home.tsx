@@ -56,14 +56,21 @@ export function SovaTicker() {
 }
 
 /** Four numbered promises under the hero. */
-export function SovaTrustStrip() {
+export function SovaTrustStrip({ wilayaCount }: { wilayaCount: number | null }) {
   const { t } = useI18n();
+  // Only the wilaya count the shop's own delivery list gives; no number when unset.
+  const labels = [
+    t("sova.trust.1"),
+    t("sova.trust.2"),
+    t("sova.trust.3"),
+    wilayaCount ? t("sova.trust.4", { n: String(wilayaCount) }) : t("sova.trust.4b"),
+  ];
   return (
     <ul className="sova-strip container-page">
-      {[1, 2, 3, 4].map((n) => (
-        <li key={n}>
-          <span className="sova-strip-n">0{n}</span>
-          <b>{t(`sova.trust.${n}` as "sova.trust.1")}</b>
+      {labels.map((label, i) => (
+        <li key={label}>
+          <span className="sova-strip-n">0{i + 1}</span>
+          <b>{label}</b>
         </li>
       ))}
     </ul>
@@ -132,44 +139,6 @@ export function SovaStory() {
         <Link to="/catalogue" className="sova-btn sova-btn-ghost">
           {t("sova.story.cta")}
         </Link>
-      </div>
-    </section>
-  );
-}
-
-/** Three promises, large, as on the reference's "how it works" block. */
-export function SovaHow({
-  returnsDays,
-  wilayaCount,
-}: {
-  returnsDays: number;
-  wilayaCount: number;
-}) {
-  const { t } = useI18n();
-  const items = [
-    {
-      title: t("lens.trust.delivery", { n: String(wilayaCount) }),
-      body: t("home2.trust.deliveryBody"),
-    },
-    { title: t("home2.trust.cod"), body: t("home2.trust.codBody") },
-    {
-      title: t("home2.trust.exchange"),
-      body: t("home2.trust.exchangeBody", { days: String(returnsDays) }),
-    },
-  ];
-  return (
-    <section className="sova-band">
-      <div className="container-page sova-section">
-        <SovaHead eyebrow={t("sova.how.eyebrow")} title={t("sova.how.title")} />
-        <ul className="sova-how">
-          {items.map((item, i) => (
-            <li key={item.title}>
-              <span className="sova-strip-n">0{i + 1}</span>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );
