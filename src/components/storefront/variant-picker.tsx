@@ -108,7 +108,18 @@ function PhotoSwatches({
           >
             <span className="lens-swatch-eye" aria-hidden="true">
               {colour.image ? (
-                <img src={colour.image} alt="" loading="lazy" />
+                <img
+                  src={colour.image}
+                  alt=""
+                  loading="lazy"
+                  // The crop is set up for portraits; a wide photo is already
+                  // an eye close-up, so it gets a gentler zoom. Checked on mount
+                  // too: an image cached before hydration never fires onLoad.
+                  ref={(img) => {
+                    if (img?.complete) markCloseup(img);
+                  }}
+                  onLoad={(e) => markCloseup(e.currentTarget)}
+                />
               ) : (
                 <span style={{ background: colour.hex ?? "var(--surface-high)" }} />
               )}
@@ -120,6 +131,10 @@ function PhotoSwatches({
       </div>
     </fieldset>
   );
+}
+
+function markCloseup(img: HTMLImageElement) {
+  img.classList.toggle("is-closeup", img.naturalWidth > img.naturalHeight);
 }
 
 /** "15 PRO MAX" → "iPhone 15 Pro Max"; any other size name is shown as stored. */
