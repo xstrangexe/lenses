@@ -10,7 +10,7 @@ describe("reviewInviteHref", () => {
     expect(href).not.toBeNull();
     const [base, query] = (href as string).split("?text=");
     expect(base).toBe("https://wa.me/213555123456");
-    expect(decodeURIComponent(query)).toBe("Amine|https://shoporadz.top/review/T");
+    expect(decodeURIComponent(query)).toBe("Amine|https://lensdz.vercel.app/review/T");
   });
 
   it("works for an Arabic name and a +213 number", () => {
@@ -20,7 +20,7 @@ describe("reviewInviteHref", () => {
     );
     expect(href).toContain("https://wa.me/213555123456?text=");
     expect(decodeURIComponent((href as string).split("?text=")[1])).toBe(
-      "محمد|https://shoporadz.top/review/T",
+      "محمد|https://lensdz.vercel.app/review/T",
     );
   });
 

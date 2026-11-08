@@ -31,7 +31,7 @@ describe("normaliseToken", () => {
 
 describe("reviewLink", () => {
   it("is the review page on the shop's address", () => {
-    expect(reviewLink("abc")).toBe("https://shoporadz.top/review/abc");
+    expect(reviewLink("abc")).toBe("https://lensdz.vercel.app/review/abc");
   });
 });
 

@@ -7,9 +7,9 @@
  * at the main address instead of competing with it. Change it here if the shop
  * moves to another domain.
  */
-const SITE_URL = "https://shoporadz.top";
+const SITE_URL = "https://lensdz.vercel.app";
 
-/** "/product/x" becomes "https://shoporadz.top/product/x"; absolute URLs pass through. */
+/** "/product/x" becomes "https://lensdz.vercel.app/product/x"; absolute URLs pass through. */
 export function absoluteUrl(path: string): string {
   if (/^https?:\/\//.test(path)) return path;
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
