@@ -89,7 +89,7 @@ export const enOrder: Record<keyof typeof arOrder, string> = {
   "placed.step1b": "Within 24 hours, on {phone}",
   "how.title": "How to order",
   "how.step1.title": "Choose the product",
-  "how.step1.body": "Pick the model and colour you like.",
+  "how.step1.body": "Pick your colour.",
   "how.step2.title": "Fill in the form",
   "how.step2.body": "Name, phone, wilaya and commune. No account, no card.",
   "how.step3.title": "We call and ship",

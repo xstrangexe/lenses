@@ -71,7 +71,7 @@ export type CatalogueProduct = {
 };
 
 /** A category with the number of published products in it. */
-type CategoryWithCount = {
+export type CategoryWithCount = {
   id: string;
   slug: string;
   name: string;

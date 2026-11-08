@@ -39,7 +39,7 @@ export const Route = createFileRoute("/product/$slug")({
   },
   head: ({ loaderData, match }) => {
     const product = loaderData?.product;
-    if (!product) return { meta: [{ title: "SHOPORA" }] };
+    if (!product) return { meta: [{ title: "Dahab Lenses" }] };
     const locale = match.context.locale;
     const name = localized(locale, product.name, product.name_fr);
     const description =
@@ -52,7 +52,7 @@ export const Route = createFileRoute("/product/$slug")({
     const url = absoluteUrl(`/product/${product.slug}`);
     // The title carries the price and "cash on delivery", which is what a buyer
     // looks for when the link is shared in a Messenger or WhatsApp chat.
-    const title = `${name}${price ? ` — ${formatDzd(price, locale)}` : ""} | SHOPORA`;
+    const title = `${name}${price ? ` — ${formatDzd(price, locale)}` : ""} | Dahab Lenses`;
     return {
       meta: [
         { title },

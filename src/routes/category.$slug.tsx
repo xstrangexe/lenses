@@ -19,9 +19,9 @@ export const Route = createFileRoute("/category/$slug")({
   },
   head: ({ loaderData, match }) => {
     const category = loaderData?.category;
-    if (!category) return { meta: [{ title: "SHOPORA" }] };
+    if (!category) return { meta: [{ title: "Dahab Lenses" }] };
     const name = localized(match.context.locale, category.name, category.name_fr);
-    const title = `${name} | SHOPORA`;
+    const title = `${name} | Dahab Lenses`;
     const description = category.description?.trim() || title;
     return {
       meta: [

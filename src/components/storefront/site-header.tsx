@@ -21,8 +21,8 @@ export function SiteHeader() {
 
   // SHOPORA's own name and logo stand in while the settings row is loading, so
   // a page fetched in the browser never flashes a generic "your online shop".
-  const storeName = settings?.name?.trim() || "SHOPORA";
-  const logoUrl = settings?.logo_url || "/brand/shopora-logo.png";
+  const storeName = settings?.name?.trim() || "Dahab Lenses";
+  const logoUrl = settings?.logo_url || "/brand/dahab-logo.svg";
 
   const links = [
     { to: "/", label: t("nav.home") },

@@ -37,7 +37,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // Default title, overridden by whichever route matches. Without this a
       // route that forgets one — or the 404 page — ships an empty <title>, which
       // axe flags and which browsers render as the raw URL.
-      { title: "SHOPORA" },
+      { title: "Dahab Lenses" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
     ],

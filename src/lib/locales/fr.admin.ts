@@ -36,7 +36,7 @@ export const frAdmin = {
   "admin.reviews.inviteCopy": "Copier le lien",
   "admin.reviews.inviteCopied": "Copié",
   "admin.reviews.inviteMessage":
-    "Bonjour {name}, merci pour votre confiance en SHOPORA. Si votre commande vous est bien arrivée, voulez-vous la noter et ajouter une photo ? Cela prend une minute : {link}",
+    "Bonjour {name}, merci pour votre confiance en Dahab Lenses. Si votre commande vous est bien arrivée, voulez-vous la noter et ajouter une photo ? Cela prend une minute : {link}",
   "admin.reviews.fromOrder": "Commande réelle",
   "admin.reviews.empty": "Aucun avis en attente",
   "admin.reviews.add": "Ajouter un avis client",

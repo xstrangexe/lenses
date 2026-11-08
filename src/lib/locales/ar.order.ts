@@ -91,7 +91,7 @@ export const arOrder = {
   "placed.step1b": "خلال 24 ساعة على {phone}",
   "how.title": "كيفاش تطلب؟",
   "how.step1.title": "اختار المنتج",
-  "how.step1.body": "اختار الموديل واللون لي يعجبك.",
+  "how.step1.body": "اختاري اللون لي يعجبك.",
   "how.step2.title": "عمّر الفورمولار",
   "how.step2.body": "الاسم، الهاتف، الولاية والبلدية. بلا حساب وبلا كارطة.",
   "how.step3.title": "نعيطولك ونبعثو",

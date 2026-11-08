@@ -93,7 +93,7 @@ export function SizePicker({
 
   return (
     <fieldset className="flex flex-col gap-2.5 outline-none" {...inField}>
-      <legend className={hideLegend ? "sr-only" : "mb-1 text-sm"}>
+      <legend className="sr-only">
         <span className="text-on-surface-muted">{t("store.stepModel")}: </span>
         <span className="font-semibold" dir="auto">
           {selected ? chipLabel(selected) : null}

@@ -5,7 +5,7 @@ import type { CatalogueProduct } from "./queries";
  * "iPhone 15 Pro Max", "13", "14 PRO". Read into a number and a type so the home
  * page's model finder can show only the cases that fit a buyer's phone.
  */
-export type PhoneType = "base" | "plus" | "pro" | "pro max";
+type PhoneType = "base" | "plus" | "pro" | "pro max";
 export type PhoneModel = { number: number; type: PhoneType };
 
 const TYPE_ORDER: PhoneType[] = ["base", "plus", "pro", "pro max"];

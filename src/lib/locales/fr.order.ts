@@ -90,7 +90,7 @@ export const frOrder: Record<keyof typeof arOrder, string> = {
   "placed.step1b": "Sous 24 heures, au {phone}",
   "how.title": "Comment commander ?",
   "how.step1.title": "Choisissez le produit",
-  "how.step1.body": "Sélectionnez le modèle et la couleur.",
+  "how.step1.body": "Choisissez votre couleur.",
   "how.step2.title": "Remplissez le formulaire",
   "how.step2.body": "Nom, téléphone, wilaya et commune. Sans compte ni carte.",
   "how.step3.title": "Confirmation et envoi",

@@ -1,70 +1,8 @@
-import { Link } from "@tanstack/react-router";
-import { ArrowRight, Quote } from "lucide-react";
+import { Quote } from "lucide-react";
 import { useI18n } from "@/lib/i18n-context";
 import { formatRelative } from "@/lib/format";
-import { useCategories, useReviews } from "@/lib/queries";
+import { useReviews } from "@/lib/queries";
 import { StarRating } from "./star-rating";
-import { localized } from "@/lib/i18n";
-
-/**
- * Category strip.
- *
- * Real links to real category pages, built from the categories table rather than
- * derived from whatever text happens to be on products. A category with no
- * published products is not rendered, because an empty category page is a dead
- * end and makes a small shop look broken.
- */
-export function CategoryStrip() {
-  const { t, locale } = useI18n();
-  const { data: categories } = useCategories();
-
-  // A strip with a single category only repeats the product grid above it.
-  const visible = (categories ?? []).filter((category) => category.product_count > 0);
-  if (visible.length < 2) return null;
-
-  return (
-    <section className="container-page py-10">
-      <h2 className="mb-5 font-display text-xl font-semibold sm:text-2xl">
-        {t("home.categories")}
-      </h2>
-
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-        {visible.map((category) => (
-          <Link
-            key={category.id}
-            to="/category/$slug"
-            params={{ slug: category.slug }}
-            className="group flex items-center justify-between gap-3 rounded-[16px] border border-outline bg-surface transition-[border-color,box-shadow,transform] hover:-translate-y-0.5 hover:border-outline-hi hover:shadow-sm"
-          >
-            {category.image_url && (
-              <span className="size-16 shrink-0 overflow-hidden rounded-s-[16px] bg-surface-high">
-                <img
-                  src={category.image_url}
-                  alt=""
-                  loading="lazy"
-                  className="size-full object-cover"
-                />
-              </span>
-            )}
-            <span className="min-w-0 flex-1 px-4 py-3.5">
-              <span className="block truncate text-sm font-medium">
-                {localized(locale, category.name, category.name_fr)}
-              </span>
-              <span className="font-mono text-xs text-on-surface-muted">
-                {category.product_count} {t("nav.products")}
-              </span>
-            </span>
-            <ArrowRight
-              size={16}
-              className="me-4 shrink-0 text-on-surface-muted transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
-              aria-hidden="true"
-            />
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 /**
  * Promo band. Berry, per the reference's "sale/secondary action" colour, so it

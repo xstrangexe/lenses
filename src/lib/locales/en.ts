@@ -5,6 +5,7 @@ import { enStorefront } from "./en.storefront";
 import { enOrder } from "./en.order";
 import { enTrack } from "./en.track";
 import { enStock } from "./en.stock";
+import { enLens } from "./en.lens";
 
 /** Mirrors the Arabic keys exactly; a missing key is a compile error. */
 export const en: Record<TranslationKey, string> = {
@@ -14,4 +15,5 @@ export const en: Record<TranslationKey, string> = {
   ...enStock,
   ...enAdmin,
   ...enTools,
+  ...enLens,
 };

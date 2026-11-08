@@ -72,3 +72,5 @@ scripts/catalogue/manifest.json
 # Cloudflare build and deploy output
 .wrangler/
 .netlify/
+
+.superpowers/
