@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Banknote, RefreshCw, Truck } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useI18n } from "@/lib/i18n-context";
 import { localized } from "@/lib/i18n";
 import type { CategoryWithCount } from "@/lib/queries";
+import { SovaHead } from "./sova-home";
 
 /**
  * Home page, "Noir & Gold": a black stage, champagne gold for actions and
@@ -22,11 +23,20 @@ export function LensHero({ hasBrands }: { hasBrands: boolean }) {
       />
       <div className="noir-hero-shade" aria-hidden="true" />
       <div className="container-page noir-hero-copy">
-        <h1 className="font-display noir-h1">{t("lens.hero.title")}</h1>
+        <p className="sova-eyebrow">{t("sova.hero.eyebrow")}</p>
+        <h1 className="sova-hero-h1" aria-label={t("lens.hero.title")}>
+          <span>{t("sova.hero.l1")}</span>
+          <span className="sova-outline">{t("sova.hero.l2")}</span>
+        </h1>
         <p className="noir-lede">{t("lens.hero.body")}</p>
-        <a href={hasBrands ? "#brands" : "#catalogue"} className="noir-btn">
-          {t(hasBrands ? "lens.hero.cta" : "lens.hero.ctaLenses")}
-        </a>
+        <div className="sova-hero-cta">
+          <a href={hasBrands ? "#brands" : "#catalogue"} className="noir-btn">
+            {t("sova.hero.shop")}
+          </a>
+          <Link to="/track" className="noir-btn-ghost px-6">
+            {t("sova.hero.track")}
+          </Link>
+        </div>
       </div>
     </section>
   );
@@ -37,8 +47,8 @@ export function BrandRow({ brands }: { brands: CategoryWithCount[] }) {
   const { t, locale } = useI18n();
   if (brands.length < 2) return null;
   return (
-    <section id="brands" className="container-page scroll-mt-20 py-10 sm:py-14">
-      <h2 className="font-display noir-h2">{t("lens.brands.title")}</h2>
+    <section id="brands" className="container-page sova-section scroll-mt-20">
+      <SovaHead eyebrow={t("sova.brands.eyebrow")} title={t("sova.brands.title")} />
       <ul className="noir-brands">
         {brands.map((b) => (
           <li key={b.id}>
@@ -58,45 +68,6 @@ export function BrandRow({ brands }: { brands: CategoryWithCount[] }) {
               </span>
               <ArrowLeft size={16} className="noir-brand-arrow ltr:rotate-180" aria-hidden="true" />
             </Link>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
-/** The three promises, said once, as a quiet line under the brands. */
-export function NoirTrust({
-  returnsDays,
-  wilayaCount,
-}: {
-  returnsDays: number;
-  wilayaCount: number | null;
-}) {
-  const { t } = useI18n();
-  const items = [
-    { Icon: Banknote, title: t("home2.trust.cod"), body: t("home2.trust.codBody") },
-    {
-      Icon: Truck,
-      title: t("lens.trust.delivery", { n: String(wilayaCount ?? 58) }),
-      body: t("home2.trust.deliveryBody"),
-    },
-    {
-      Icon: RefreshCw,
-      title: t("home2.trust.exchange"),
-      body: t("home2.trust.exchangeBody", { days: String(returnsDays) }),
-    },
-  ];
-  return (
-    <section className="container-page">
-      <ul className="noir-trust">
-        {items.map(({ Icon, title, body }) => (
-          <li key={title}>
-            <Icon size={20} className="noir-gold" aria-hidden="true" />
-            <span>
-              <b>{title}</b>
-              <small>{body}</small>
-            </span>
           </li>
         ))}
       </ul>

@@ -38,6 +38,8 @@
     "@fontsource-variable/cairo": "^5.3.0",
     "@fontsource-variable/fraunces": "^5.3.0",
     "@fontsource-variable/outfit": "^5.3.0",
+    "@fontsource/archivo-black": "^5.3.0",
+    "@fontsource/hind": "^5.3.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@supabase/supabase-js": "^2.105.4",

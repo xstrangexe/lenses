@@ -44,7 +44,7 @@ export function SiteFooter() {
   const whatsappHref = waLink(settings?.whatsapp);
 
   return (
-    <footer className="mt-6 border-t border-outline bg-section-alt sm:mt-12">
+    <footer data-theme="dark" className="sova-footer border-t border-outline text-on-surface">
       <div className="container-page grid gap-6 py-8 sm:grid-cols-2 sm:gap-8 sm:py-10 lg:grid-cols-4">
         <div className="flex flex-col gap-1.5">
           <p className="font-display text-lg font-semibold">{settings?.name ?? t("app.name")}</p>

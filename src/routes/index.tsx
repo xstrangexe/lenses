@@ -2,8 +2,17 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { StoreLayout } from "@/components/storefront/store-layout";
 import { ProductGrid } from "@/components/storefront/product-card";
 import { HowToOrder, PromoBand, ReviewWall } from "@/components/storefront/home-sections";
-import { BrandRow, LensHero, NoirTrust } from "@/components/storefront/lens-home";
+import { BrandRow, LensHero } from "@/components/storefront/lens-home";
 import { CareTips } from "@/components/storefront/lens-guides";
+import {
+  SovaHead,
+  SovaHow,
+  SovaManifesto,
+  SovaQuickAccess,
+  SovaReseller,
+  SovaStory,
+  SovaTrustStrip,
+} from "@/components/storefront/sova-home";
 import { ErrorState, NoProducts, ProductSkeleton } from "@/components/ui/feedback";
 import { SetupCheck } from "@/components/setup-check";
 import { supabaseConfigProblem } from "@/lib/supabase/client";
@@ -100,11 +109,16 @@ function Home() {
     <StoreLayout>
       <div className="noir" data-theme="dark">
         <LensHero hasBrands={brands.length >= 2} />
-        <BrandRow brands={brands} />
-        <NoirTrust returnsDays={settings?.returns_days ?? 7} wilayaCount={wilayaCount} />
+        <SovaTrustStrip />
+        <SovaQuickAccess />
 
-        <section id="catalogue" className="container-page scroll-mt-20 py-10 sm:py-14">
-          <h2 className="font-display noir-h2 mb-5">{t("lens.grid.title")}</h2>
+        <section id="catalogue" className="container-page sova-section scroll-mt-20 !pt-0">
+          <SovaHead
+            eyebrow={t("sova.drop.eyebrow")}
+            title={t("sova.drop.title")}
+            to="/catalogue"
+            toLabel={t("sova.drop.all")}
+          />
 
           {catalogue.isPending ? (
             <div className="product-grid">
@@ -131,12 +145,17 @@ function Home() {
             </>
           )}
         </section>
-        <div className="container-page pb-12 sm:pb-16">
+        <BrandRow brands={brands} />
+        <SovaManifesto />
+        <SovaStory />
+        <div id="care" className="container-page scroll-mt-20 pb-12 sm:pb-16">
           <CareTips />
         </div>
         <PromoBand threshold={settings?.free_shipping_threshold ?? 0} />
         <ReviewWall />
         <HowToOrder />
+        <SovaHow returnsDays={settings?.returns_days ?? 7} wilayaCount={wilayaCount ?? 58} />
+        <SovaReseller />
       </div>
     </StoreLayout>
   );

@@ -4,6 +4,7 @@ import { BottomNav } from "./bottom-nav";
 import { AnnouncementBar } from "./announcement-bar";
 import { DemoBanner } from "./demo-banner";
 import { BrandStyle } from "./brand-style";
+import { SovaTicker } from "./sova-home";
 
 /**
  * Shared storefront chrome.
@@ -33,6 +34,7 @@ export function StoreLayout({
     <div data-theme="light" className="flex min-h-dvh flex-col bg-bg text-on-surface">
       <BrandStyle />
       <DemoBanner />
+      <SovaTicker />
       <AnnouncementBar />
       <SiteHeader />
       <main className="page-bottom-pad flex-1 lg:pb-0">{children}</main>
