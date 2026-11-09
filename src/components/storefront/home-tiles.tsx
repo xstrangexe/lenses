@@ -60,7 +60,8 @@ function BrandCard({
   products: CatalogueProduct[];
 }) {
   const { t, locale } = useI18n();
-  const image = productImage(products[0]);
+  // The brand's own collection picture when the owner set one, else its newest product's.
+  const image = category.image_url || productImage(products[0]);
   const prices = products.map((p) => priceRange(p)?.min).filter((v): v is number => v != null);
   const from = prices.length > 0 ? Math.min(...prices) : null;
 
