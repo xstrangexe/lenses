@@ -25,7 +25,7 @@ import { StarRating } from "./star-rating";
  * only repeated itself on every card. The title gets two lines' height and the
  * colour line always takes its row, so prices line up across a row.
  */
-function ProductCard({ product, cta }: { product: CatalogueProduct; cta: GridCta }) {
+export function ProductCard({ product, cta }: { product: CatalogueProduct; cta: GridCta }) {
   const { t, locale } = useI18n();
 
   const image = productImage(product);
@@ -103,7 +103,7 @@ function ProductCard({ product, cta }: { product: CatalogueProduct; cta: GridCta
 }
 
 /** What a card's button says: "order now", or "details" where a page already has its own order form. */
-type GridCta = "order" | "view";
+export type GridCta = "order" | "view";
 
 export function ProductGrid({
   products,

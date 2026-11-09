@@ -77,4 +77,5 @@ export const frLens = {
   "sova.promise.1": "Couleurs choisies à la main",
   "sova.promise.1b": "Chaque couleur est choisie par nous avant d'être en ligne.",
   "brand.pick": "Choisissez votre couleur et confirmez votre commande. Paiement à la livraison.",
+  "brand.pickCta": "Choisir ma couleur",
 } as const;

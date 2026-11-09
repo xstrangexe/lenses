@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { StoreLayout } from "@/components/storefront/store-layout";
-import { ProductGrid } from "@/components/storefront/product-card";
+import { HomeTiles, homeTiles } from "@/components/storefront/home-tiles";
 import { HowToOrder, PromoBand, ReviewWall } from "@/components/storefront/home-sections";
 import { BrandRow, LensHero } from "@/components/storefront/lens-home";
 import { CareTips } from "@/components/storefront/lens-guides";
@@ -98,8 +98,8 @@ function Home() {
 
   // Every published lens line; colours and powers are chosen on its page.
   const cases = catalogue.data?.products ?? [];
-  const grid = cases.slice(0, GRID_SIZE);
-  const fresh = cases.slice(GRID_SIZE, GRID_SIZE * 2);
+  // One tile per brand: FreshLady's ten colours are one collection card.
+  const tiles = homeTiles(cases, categories ?? []).slice(0, GRID_SIZE);
   const brands = (categories ?? []).filter((c) => c.product_count > 0);
 
   // Noir & Gold: hero, brands, promises, lenses, power guide, care, reviews,
@@ -135,7 +135,7 @@ function Home() {
             <NoProducts />
           ) : (
             <>
-              <ProductGrid products={grid} />
+              <HomeTiles tiles={tiles} />
               <Link to="/catalogue" className="noir-btn-ghost mt-6">
                 {t("best.more")}
               </Link>
@@ -143,12 +143,6 @@ function Home() {
           )}
         </section>
         <SovaPromise />
-        {fresh.length > 0 && (
-          <section className="container-page sova-section">
-            <SovaHead eyebrow={t("sova.drop.eyebrow")} title={t("sova.new.title")} />
-            <ProductGrid products={fresh} />
-          </section>
-        )}
         <SovaQuickAccess />
         <BrandRow brands={brands} />
         <SovaManifesto />
