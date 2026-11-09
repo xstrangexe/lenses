@@ -3357,3 +3357,9 @@ html[dir="rtl"] {
 /* A wide swatch photo is already an eye close-up (FreshLady catalogue crops):
    zoom gently around the iris instead of the portrait crop above. */
 .lens-swatch-eye img.is-closeup { transform: scale(1.45); transform-origin: 50% 52%; }
+
+/* The main product photos are designed square: show them whole on every screen
+   (replaces the 4:3 phone frame above, which cut the logo and the expiry line).
+   Clips are framed on the eyes. */
+.noir .gallery-main { aspect-ratio: 1 / 1; }
+.noir .gallery-main video { object-position: 50% 30%; }

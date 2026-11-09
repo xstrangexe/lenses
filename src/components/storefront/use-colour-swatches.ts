@@ -13,10 +13,12 @@ export function useColourSwatches(
   pickColour: (colour: string) => void,
 ) {
   const galleryRef = useRef<HTMLDivElement>(null);
-  const swatches = colours.map((c) => ({
-    ...c,
-    image: imagesForColour(variants, c.name)[0] ?? null,
-  }));
+  // A designed main photo (kept under `/main/`) carries text and a logo, so the
+  // swatch uses the colour's next photo, the eye itself, when there is one.
+  const swatches = colours.map((c) => {
+    const photos = imagesForColour(variants, c.name);
+    return { ...c, image: photos.find((url) => !url.includes("/main/")) ?? photos[0] ?? null };
+  });
 
   const chooseColour = (colour: string) => {
     pickColour(colour);

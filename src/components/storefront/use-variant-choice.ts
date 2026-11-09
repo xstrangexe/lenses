@@ -53,11 +53,12 @@ export function useVariantChoice(
   // The gallery follows the colour. With no colour photos, fall back to all.
   const colourImages = imagesForColour(variants, choice.colour);
   const photos = colourImages.length > 0 ? colourImages : imagesForColour(variants, null);
-  // The first clip opens the gallery; the rest follow the photos. Picking a
-  // colour jumps to its first photo, not back to the clip.
+  // The main photo opens the gallery, the clips follow it, then the other
+  // photos: every product starts the same way. Picking a colour jumps back to
+  // that colour's main photo.
   const videos = productVideos(slug);
-  const lead = Math.min(videos.length, 1);
-  const images = [...videos.slice(0, lead), ...photos, ...videos.slice(lead)];
+  const lead = 0;
+  const images = photos.length > 0 ? [photos[0], ...videos, ...photos.slice(1)] : videos;
 
   const pickColour = (colour: string) => {
     setChoice({ colour, size: choice.size ?? sizeAfterColourChange(variants, colour, null) });
