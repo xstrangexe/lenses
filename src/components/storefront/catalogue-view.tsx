@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { PackageSearch } from "lucide-react";
 import { ProductGrid } from "./product-card";
 import { CatalogueToolbar } from "./catalogue-toolbar";
@@ -26,12 +26,18 @@ export function CatalogueView({
   initialFilters,
   emptyTitle,
   emptyBody,
+  landing = false,
+  intro,
 }: {
   heading: string;
   subheading?: string;
   initialFilters?: Partial<CatalogueFilters>;
   emptyTitle?: string;
   emptyBody?: string;
+  /** Ad landing (brand pages): no filter or sort bar, the colours come straight after the promises. */
+  landing?: boolean;
+  /** Shown under the heading, before the grid. */
+  intro?: ReactNode;
 }) {
   const { t } = useI18n();
   const [filters, setFilters] = useState<CatalogueFilters>({
@@ -71,17 +77,20 @@ export function CatalogueView({
       <header className="flex flex-col gap-2">
         <h1 className="font-display text-2xl font-semibold sm:text-3xl">{heading}</h1>
         {subheading && <p className="max-w-2xl text-sm text-on-surface-muted">{subheading}</p>}
+        {intro}
       </header>
 
-      <CatalogueToolbar
-        filters={filters}
-        onChange={applyFilters}
-        sizes={facets.sizes}
-        colors={facets.colors}
-        priceMin={facets.priceMin}
-        priceMax={facets.priceMax}
-        resultCount={catalogue.data?.total ?? 0}
-      />
+      {!landing && (
+        <CatalogueToolbar
+          filters={filters}
+          onChange={applyFilters}
+          sizes={facets.sizes}
+          colors={facets.colors}
+          priceMin={facets.priceMin}
+          priceMax={facets.priceMax}
+          resultCount={catalogue.data?.total ?? 0}
+        />
+      )}
 
       {catalogue.isPending ? (
         <CatalogueLoading />

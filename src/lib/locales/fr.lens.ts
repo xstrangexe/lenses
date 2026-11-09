@@ -76,4 +76,5 @@ export const frLens = {
   "sova.promise.eyebrow": "Notre promesse",
   "sova.promise.1": "Couleurs choisies à la main",
   "sova.promise.1b": "Chaque couleur est choisie par nous avant d'être en ligne.",
+  "brand.pick": "Choisissez votre couleur et confirmez votre commande. Paiement à la livraison.",
 } as const;

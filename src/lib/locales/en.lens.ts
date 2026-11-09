@@ -69,4 +69,5 @@ export const enLens = {
   "sova.promise.eyebrow": "Our promise",
   "sova.promise.1": "Handpicked colours",
   "sova.promise.1b": "Every colour is chosen by us before it goes online.",
+  "brand.pick": "Pick your colour and confirm your order. Pay on delivery.",
 } as const;

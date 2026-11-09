@@ -68,4 +68,5 @@ export const arLens = {
   "sova.promise.eyebrow": "وعدنا",
   "sova.promise.1": "ألوان مختارة بعناية",
   "sova.promise.1b": "كل لون نختارو بنفسنا قبل ما ينزل للموقع.",
+  "brand.pick": "اختاري لونك واضغطي عليه باش تأكدي طلبك. الدفع عند الاستلام.",
 } as const;

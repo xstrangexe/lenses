@@ -1,6 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { StoreLayout } from "@/components/storefront/store-layout";
 import { CatalogueView } from "@/components/storefront/catalogue-view";
+import { TrustRow } from "@/components/storefront/express-order-inputs";
+import { HowToOrder, ReviewWall } from "@/components/storefront/home-sections";
+import { ProductFaq } from "@/components/storefront/product-faq";
 import { useI18n } from "@/lib/i18n-context";
 import { categoriesQuery, useCategories } from "@/lib/queries";
 import { localized } from "@/lib/i18n";
@@ -56,9 +59,19 @@ function CategoryPage() {
             ever filter the list it was given. */}
           <CatalogueView
             heading={heading}
-            subheading={category.description ?? undefined}
+            subheading={category.description?.trim() || t("brand.pick")}
             initialFilters={{ ...EMPTY_FILTERS, categorySlug: category.slug }}
+            landing
+            intro={<TrustRow />}
           />
+        </div>
+
+        {/* Brand pages are where the ads land: after the colours, what a
+            first-time buyer asks before ordering. */}
+        <HowToOrder />
+        <ReviewWall />
+        <div className="container-page py-10">
+          <ProductFaq />
 
           {/* Other categories, so a buyer who landed here from search can keep
             browsing instead of hitting a dead end. */}
