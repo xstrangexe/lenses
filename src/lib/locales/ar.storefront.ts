@@ -91,7 +91,7 @@ export const arStorefront = {
   "store.fitsOne": "يركب على {model}",
   "store.readMore": "المزيد",
   "store.readLess": "أقل",
-  "store.showcase": "شوف الكوفر عن قرب",
+  "store.showcase": "شوفيها على الوجه",
   "pfaq.title": "أسئلة سريعة",
   "pfaq.q1": "وقتاش يوصلني الطلب؟",
   "pfaq.a1": "من 1 حتى 3 أيام مع ZR Express، بعد ما نعيطولك نأكدو الطلب (في 24 ساعة).",

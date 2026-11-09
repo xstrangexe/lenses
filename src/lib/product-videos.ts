@@ -8,11 +8,6 @@
 const VIDEOS: Record<string, string[]> = {
   "chanel-case": ["/videos/chanel-1.mp4", "/videos/chanel-3.mp4"],
   case: ["/videos/case18-1.mp4"],
-  // Creator clips, used with the creators' permission (owner's word, Nov 2026).
-  "freshlady-siri-green": [
-    "/videos/freshlady-siri-green-1.mp4",
-    "/videos/freshlady-siri-green-2.mp4",
-  ],
 };
 
 /**
@@ -23,6 +18,12 @@ const SHOWCASE: Record<string, string[]> = {
   "chanel-case": [1, 2, 3].map((n) => `/videos/show-${n}.mp4`),
   // the 20 s promo ad; unlike the phone clips it has a sound track, which the player's controls can unmute
   "magsafe-burgundy": ["/videos/show-burgundy.mp4"],
+  // Creator clips (used with the creators' permission, owner's word, Nov 2026),
+  // below the order form so the gallery stays photo, close-up, model.
+  "freshlady-siri-green": [
+    "/videos/show-freshlady-siri-green-1.mp4",
+    "/videos/show-freshlady-siri-green-2.mp4",
+  ],
 };
 
 export function showcaseVideos(slug: string): string[] {

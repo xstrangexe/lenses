@@ -94,7 +94,7 @@ export const frStorefront = {
   "store.fitsOne": "Pour {model}",
   "store.readMore": "Voir plus",
   "store.readLess": "Voir moins",
-  "store.showcase": "Voyez la coque de près",
+  "store.showcase": "Portées en vrai",
   "pfaq.title": "Questions rapides",
   "pfaq.q1": "Quand vais-je recevoir ma commande ?",
   "pfaq.a1": "En 1 à 3 jours avec ZR Express, après notre appel de confirmation (sous 24 heures).",

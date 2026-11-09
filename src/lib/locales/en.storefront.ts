@@ -93,7 +93,7 @@ export const enStorefront = {
   "store.fitsOne": "Fits {model}",
   "store.readMore": "Read more",
   "store.readLess": "Show less",
-  "store.showcase": "See it up close",
+  "store.showcase": "Worn for real",
   "pfaq.title": "Quick questions",
   "pfaq.q1": "When will my order arrive?",
   "pfaq.a1": "In 1–3 days with ZR Express, after we call to confirm it (within 24 hours).",
