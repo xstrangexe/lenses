@@ -165,7 +165,7 @@ export const arStorefront = {
   "order.etaValue": "{days} أيام",
   "order.carrier": "شركة التوصيل",
   "order.trackingNumber": "رقم التتبع",
-  "order.confirmNote": "سنتصل بك لتأكيد هذا الطلب. يرجى إبقاء هاتفك متاحاً.",
+  "order.confirmNote": "غادي نعيطولك باش نأكدو هاذ الطلب، خلّي تيليفونك قريب منك.",
   "status.pending": "بانتظار التأكيد",
   "status.confirmed": "مؤكد",
   "status.refused": "مرفوض",

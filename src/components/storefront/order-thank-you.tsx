@@ -7,7 +7,7 @@ import { useStoreSettings } from "@/lib/queries";
 import { waLink } from "@/lib/whatsapp";
 import { wilayaLabel } from "@/lib/wilayas";
 import { orderPhoto } from "@/lib/order-photo";
-import type { TrackedOrder } from "@/lib/order";
+import { orderNumber, type TrackedOrder } from "@/lib/order";
 
 /**
  * The page a buyer lands on right after ordering.
@@ -20,7 +20,7 @@ import type { TrackedOrder } from "@/lib/order";
  */
 export function OrderThankYou({ order }: { order: TrackedOrder }) {
   const { t } = useI18n();
-  const number = order.token.slice(0, 8).toUpperCase();
+  const number = orderNumber(order.token);
   const firstName = order.customer_name.trim().split(/\s+/)[0] ?? "";
 
   return (
@@ -149,7 +149,7 @@ function Actions({ number }: { number: string }) {
           {t("placed.whatsapp")}
         </a>
       )}
-      <Link to="/" className="btn btn-gold btn-lg btn-block">
+      <Link to="/" className="btn btn-primary btn-lg btn-block">
         {t("placed.continue")}
       </Link>
       <p className="text-center text-xs text-on-surface-muted">{t("placed.keep")}</p>

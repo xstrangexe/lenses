@@ -120,4 +120,6 @@ export const enOrder: Record<keyof typeof arOrder, string> = {
   "spot.cod": "Cash on delivery",
   "trust2.wilayas": "Delivery to {count} wilayas",
   "express.plusDelivery": "+ delivery",
+  "order.stoppedTitle": "This order was stopped",
+  "order.stoppedBody": "To order again or ask a question, message us on WhatsApp.",
 };

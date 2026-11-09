@@ -121,4 +121,6 @@ export const frOrder: Record<keyof typeof arOrder, string> = {
   "spot.cod": "Paiement à la livraison",
   "trust2.wilayas": "Livraison dans {count} wilayas",
   "express.plusDelivery": "+ livraison",
+  "order.stoppedTitle": "Cette commande a été arrêtée",
+  "order.stoppedBody": "Pour recommander ou poser une question, écrivez-nous sur WhatsApp.",
 };

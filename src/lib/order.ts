@@ -104,6 +104,11 @@ export async function trackOrder(token: string): Promise<TrackedOrder | null> {
 /** Ordered status flow, used for the tracking timeline and the admin queue. */
 export const ORDER_FLOW = ["pending", "confirmed", "shipped", "delivered"] as const;
 
+/** The short reference a buyer reads out on the phone: the token's first 8 characters. */
+export function orderNumber(token: string): string {
+  return token.slice(0, 8).toUpperCase();
+}
+
 /** Statuses that stop the flow. Used to grey out the timeline. */
 export function isTerminal(status: string): boolean {
   return ["delivered", "refused", "cancelled", "returned"].includes(status);

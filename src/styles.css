@@ -3363,3 +3363,18 @@ html[dir="rtl"] {
    Clips are framed on the eyes. */
 .noir .gallery-main { aspect-ratio: 1 / 1; }
 .noir .gallery-main video { object-position: 50% 30%; }
+
+/* Thank-you and tracking pages on the dark stage: the old champagne gold
+   becomes the shop's orange; cards and the cash box follow the order form. */
+.noir .ty-check { background: var(--sova-accent); color: #fff; box-shadow: 0 0 0 10px rgba(222, 99, 60, 0.16), 0 14px 30px rgba(222, 99, 60, 0.3); }
+.noir .ty-title { font-family: "Cairo Variable", var(--sova-display); font-weight: 900; color: #fff; }
+.noir .ty-call { color: #c7c7c7; }
+.noir .ty-number { border-color: rgba(222, 99, 60, 0.6); color: #fff; }
+.noir .ty-card { border-color: #333; border-radius: 4px; background: #1f1f1f; }
+.noir .ty-where { border-color: #333; color: var(--sova-accent); }
+.noir .ty-photo { border-radius: 4px; background: #2a2a2a; }
+.noir .ty-cash { border: 1px solid #333; border-radius: 4px; background: #171717; color: #e5e5e5; }
+.noir .ty-cash strong { color: var(--sova-accent); }
+.noir .ty-step-icon { background: rgba(222, 99, 60, 0.14); color: var(--sova-accent); }
+.noir .ty-stopped { border-color: rgba(222, 99, 60, 0.45); }
+.noir .ty-stopped .btn { border-radius: 2px; }
