@@ -8,6 +8,11 @@
 const VIDEOS: Record<string, string[]> = {
   "chanel-case": ["/videos/chanel-1.mp4", "/videos/chanel-3.mp4"],
   case: ["/videos/case18-1.mp4"],
+  // Creator clips, used with the creators' permission (owner's word, Nov 2026).
+  "freshlady-siri-green": [
+    "/videos/freshlady-siri-green-1.mp4",
+    "/videos/freshlady-siri-green-2.mp4",
+  ],
 };
 
 /**
